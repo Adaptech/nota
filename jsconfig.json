@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "target": "ES6"
+    },
+    "exclude": [
+        "node_modules", "dist"
+    ],
+    "include": [
+        "node_modules/eventstore-node"
+    ],    
+    "files": [
+        "src/"
+    ]    
+}

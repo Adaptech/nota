@@ -1,0 +1,10 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/types/npm-validator/2ff2362c9341b41b781e83bc7c0759c0359be6e2/typings.json",
+    "raw": "registry:npm/validator#5.7.0+20160912014851",
+    "main": "index.d.ts",
+    "version": "5.7.0",
+    "name": "validator"
+  }
+}

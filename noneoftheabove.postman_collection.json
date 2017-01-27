@@ -1,0 +1,55 @@
+{
+	"id": "3b852148-5b61-1ccb-a84d-deea19461e40",
+	"name": "noneoftheabove",
+	"description": "",
+	"order": [
+		"97515a85-5f70-4919-be35-63eef407ff33",
+		"8309d9cf-93d2-cf72-8b31-371a2f7a6099"
+	],
+	"folders": [],
+	"timestamp": 1484874935798,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "8309d9cf-93d2-cf72-8b31-371a2f7a6099",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{protocol}}://{{server}}/api/v1/r/electionadmin/",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1485531536275,
+			"name": "/api/v1/r/electionadmin",
+			"description": "",
+			"collectionId": "3b852148-5b61-1ccb-a84d-deea19461e40",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
+			"id": "97515a85-5f70-4919-be35-63eef407ff33",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{protocol}}://{{server}}/api/v1/electionadmin/create",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1485541880209,
+			"name": "/api/v1/electionadmin/create",
+			"description": "",
+			"collectionId": "3b852148-5b61-1ccb-a84d-deea19461e40",
+			"responses": [],
+			"rawModeData": "{\n   \"electionAdminId\": \"36107b1d-a120-4f8a-ae1a-0c913fc04c61\",\n   \"name\": \"Joy Murchinson\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Stueben\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Bingen\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
+		}
+	]
+}

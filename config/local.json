@@ -1,0 +1,6 @@
+{
+  "publicHostname": "localhost",
+  "httpPort": 3001,
+  "useHttps": false,
+  "esEndPoint": {"hostname": "localhost", "port": 1113}
+}
