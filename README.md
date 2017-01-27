@@ -1,4 +1,6 @@
 
+NOTA ("None Of The Above") is a secure online voting system. We are building it at the https://www.meetup.com/DDD-CQRS-ES/ meetup in Vancouver, BC.
+
 ## Getting Started
 
 ### Install & run Eventstore on localhost
