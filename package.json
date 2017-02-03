@@ -4,9 +4,10 @@
   "description": "None Of The Above - Secure Online Voting",
   "main": "dist/app.js",
   "dependencies": {
+    "babel-core": "^6.22.1",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
-    "eventstore-node": "latest",
+    "eventstore-node": "0.0.23",
     "express": "^4.13.4",
     "glob": "^7.0.5",
     "on-response": "^1.0.1",

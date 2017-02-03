@@ -1,8 +1,9 @@
 
 export default class ElectionAdminCreated {
-  constructor(electionAdminId, name, address) {
+  constructor(electionAdminId, firstname, lastname, address) {
     this.electionAdminId = electionAdminId; 
-    this.name = name; // mandatory
+    this.firstname = firstname; // mandatory
+    this.lastname = lastname; // mandatory
     this.address = address; // mandatory. MUST contain zip code.
   }
 };

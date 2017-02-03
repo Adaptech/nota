@@ -10,7 +10,7 @@ describe('electionadmins', function() {
   describe('Given a electionAdmin doesn\'t exist yet, when CreateElectionAdmin is called', function() {
      var electionAdmin = new ElectionAdmin();
      var address = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "WA", "94043", "addressCountry")
-     var result = electionAdmin.execute(new CreateElectionAdmin("134","Joy Murchinson", address));
+     var result = electionAdmin.execute(new CreateElectionAdmin("134","Joy", "Murchinson", address));
     it('it should publish a ElectionAdminCreated event', function() {
       assert.ok(result[0] instanceof ElectionAdminCreated);
       assert.ok(result.length == 1)
@@ -18,8 +18,11 @@ describe('electionadmins', function() {
     it('it should have the electionAdmin id', function() {
       assert.equal(result[0].electionAdminId, "134");
     });
-    it('it should have the electionAdmin name', function() {
-      assert.equal(result[0].name, "Joy Murchinson");
+    it('it should have the electionAdmin first name', function() {
+      assert.equal(result[0].firstname, "Joy");
+    });  
+    it('it should have the electionAdmin lastname', function() {
+      assert.equal(result[0].lastname, "Murchinson");
     });  
     it('it should have a zip code in the address.', function() {
       assert.equal(result[0].address.postalCode, "94043");
@@ -45,18 +48,18 @@ describe('electionadmins', function() {
         );
      })
   });
-  describe('Given CreateElectionAdmin is called with a blank electionAdmin name', function() {
+  describe('Given CreateElectionAdmin is called with a blank lastname or firstname', function() {
     it('the change should be rejected.', function() {
       assert.throws(
         () => {
            var electionAdminId ="456";
-           var electionAdminName = "";
            var electionAdminAddress = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "addressRegion", "94043", "addressCountry")
            var electionAdmin = new ElectionAdmin();
-           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, electionAdminName, electionAdminAddress));
+           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, null, "", electionAdminAddress));
         },
         function(err) {
-          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "ElectionAdmin name is a required field.")){
+          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "ElectionAdmin lastname is a required field.") 
+            && err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "ElectionAdmin firstname is a required field.")){
             return true;
           }
         },
@@ -90,10 +93,9 @@ describe('electionadmins', function() {
       assert.throws(
         () => {
            var electionAdminId ="456";
-           var electionAdminName = "Joy Murchinson";
            var electionAdminAddress = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "WA", "", "addressCountry")
            var electionAdmin = new ElectionAdmin();
-           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, electionAdminName, electionAdminAddress));
+           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, "Joy", "Murchinson", electionAdminAddress));
         },
         function(err) {
           if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Zip / Postal Code is a required field.")){
@@ -109,10 +111,9 @@ describe('electionadmins', function() {
       assert.throws(
         () => {
            var electionAdminId ="456";
-           var electionAdminName = "Joy Murchinson";
            var electionAdminAddress = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", null, "95534", "addressCountry")
            var electionAdmin = new ElectionAdmin();
-           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, electionAdminName, electionAdminAddress));
+           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, "Joy", "Murchinson", electionAdminAddress));
         },
         function(err) {
           if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "State is a required field.")){

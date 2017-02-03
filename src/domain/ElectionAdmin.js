@@ -32,8 +32,11 @@ export default class ElectionAdmin {
     if(!command.electionAdminId) {
       validationErrors.push({"field": "electionAdminId", "msg": "ElectionAdmin id is a required field."});
     }
-    if(!command.name) {
-      validationErrors.push({"field": "name", "msg": "ElectionAdmin name is a required field."});
+    if(!command.firstname) {
+      validationErrors.push({"field": "firstname", "msg": "ElectionAdmin firstname is a required field."});
+    }   
+    if(!command.lastname) {
+      validationErrors.push({"field": "lastname", "msg": "ElectionAdmin lastname is a required field."});
     }   
     if(command.address && !command.address.postalCode) {
       validationErrors.push({"field": "postalCode", "msg": "Zip / Postal Code is a required field."});
@@ -45,7 +48,7 @@ export default class ElectionAdmin {
       throw new errors.ValidationFailed(validationErrors);
     }  
     var result = [];
-    result.push(new ElectionAdminCreated(command.electionAdminId, command.name, command.address));
+    result.push(new ElectionAdminCreated(command.electionAdminId, command.firstname, command.lastname, command.address));
     return result;
   }
 }
