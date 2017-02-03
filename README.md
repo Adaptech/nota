@@ -1,6 +1,13 @@
 
 NOTA ("None Of The Above") is a secure online voting system. We are building it at the https://www.meetup.com/DDD-CQRS-ES/ meetup in Vancouver, BC.
 
+## TODO:
+
+- An election administrator currently has a name. Write the necessary tests to have a first name and last name instead and make them pass. Discussion: How would you handle existing data in this scenario?
+- Implement the ReferendumCreated event, a CreateReferendum command and a referendum read model, with tests. What are the properties of the event and the command?
+
+
+
 ## Getting Started
 
 ### Install & run Eventstore on localhost
