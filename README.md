@@ -3,7 +3,9 @@ NOTA ("None Of The Above") is a secure online voting system. We are building it 
 
 ## TODO:
 
-- An election administrator currently has a name. Write the necessary tests to have a first name and last name instead and make them pass. Discussion: How would you handle existing data in this scenario?
+- DONE An election administrator currently has a name. Write the necessary tests to have a first name and last name instead and make them pass.
+- The ElectionAdmin controller needs to be modified to handle first- and lastname instead of name and the Postman API call example needs updating. 
+- _Hands-on example for the Thursday Feb. 9 2017 meetup:_ How would you handle versioning and existing data in this scenario?
 - Implement the ReferendumCreated event, a CreateReferendum command and a referendum read model, with tests. What are the properties of the event and the command?
 
 
