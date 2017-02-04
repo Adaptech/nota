@@ -1,6 +1,0 @@
-{
-  "publicHostname": "localhost",
-  "httpPort": 3001,
-  "useHttps": false,
-  "esEndPoint": {"hostname": "eventstore", "port": 1113}
-}

@@ -7,7 +7,7 @@
     "babel-core": "^6.22.1",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
-    "eventstore-node": "0.0.23",
+    "eventstore-node": "^0.0.25",
     "express": "^4.13.4",
     "glob": "^7.0.5",
     "on-response": "^1.0.1",
