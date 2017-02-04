@@ -1,7 +1,7 @@
 
-NOTA ("None Of The Above") is a secure online voting system. We are building it at the https://www.meetup.com/DDD-CQRS-ES/ meetup in Vancouver, BC.
+NOTA ("None Of The Above") is a secure online voting system. We are building it at the https://www.meetup.com/DDD-CQRS-ES/ meetup in Vancouver, BC. We [regularly develop example DDD/CQRS/ES systems](https://adaptechsolutions.net/2016-in-review-vancouvers-cqrsesddd-meetup/) anyway to give meetup members an opportunity to get hands-on experience and this one seemed like it could turn out to be of some use.
 
-## Step One: Building Minimum Viable Product
+## Step One: Building A Minimum Viable Product
 
 Version 1 is going to be the "zerotech": For fast delivery and to eliminate waste, the business rules which are needed for enabling the core value proposition of the system ("better choices for the electorate") are built first so they can be demoed and validated. Infrastructure such as blockchain, persistent read models, authentication, etc. is added later, after the already operational business rules of the system provide "tail lights to follow". This simplifies project management, team collaboration and coordination because many of the infrastructure- and other requirements are communicated in code, under test.
 
