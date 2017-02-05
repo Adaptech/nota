@@ -8,7 +8,7 @@ export default class ElectionAdminController {
       console.log(req.body)
       var params = req.body;
       var address = new PostalAddress(params.address.streetAddress, params.address.postOfficeBoxNumber, params.address.addressLocality, params.address.addressRegion, params.address.postalCode, params.address.addressCountry)
-      const command = new CreateElectionAdmin(params.electionAdminId, params.name, address);
+      const command = new CreateElectionAdmin(params.electionAdminId, params.firstname, params.lastname, address);
       commandHandler(command.electionAdminId, new ElectionAdmin(), command)
           .then(() => {
             res.status(202).json(command);
