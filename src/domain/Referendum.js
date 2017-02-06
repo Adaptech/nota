@@ -47,6 +47,7 @@ export default class Referendum {
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }  
+    command.options.push("None of the above");
     var result = [];
     result.push(new ReferendumCreated(command.referendumId, command.name, command.proposal, command.options));
     return result;

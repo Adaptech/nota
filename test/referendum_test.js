@@ -23,14 +23,17 @@ describe('referendums', function() {
     it('it should have the referendum proposal', function() {
       assert.equal(result[0].proposal, "Should the United Kindom remain a member of the European Union?");
     });  
-    it('it should have two options.', function() {
-      assert.equal(result[0].options.length, 2);
+    it('it should have two options initially', function() {
+      assert.equal(result[0].options.length, 3);
     });    
     it('it should have a first option', function() {
       assert.equal(result[0].options[0], "Remain a member of European Union");
     });   
     it('it should have a second option', function() {
       assert.equal(result[0].options[1], "Leave the European Union");
+    });
+    it('Third option has to be "None Of the above', function() {
+      assert.equal(result[0].options[2], "None of the above");
     });
   })
   describe('Given an existing referendum, when CreateReferendum is called', function() {
