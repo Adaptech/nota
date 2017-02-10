@@ -124,3 +124,114 @@ describe('electionadmins', function() {
       );
     });
 })})
+
+describe('electionadmins', function() {
+  describe.only('Given the name Jim Smith instead first and lastname, when an ElectionAdmin is created', function() {
+     var electionAdmin = new ElectionAdmin();
+     var address = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "WA", "94043", "addressCountry")
+     var result = electionAdmin.execute(new CreateElectionAdmin("134","Jim Smith", address));
+    it('it should publish a ElectionAdminCreated event with firstname Jim and last name Smith', function() {
+      assert.ok(result[0] instanceof ElectionAdminCreated);
+      assert.ok(result.length == 1)
+    }),
+    it('it should have the electionAdmin first name', function() {
+      assert.equal(result[0].firstname, "Joy");
+    });  
+    it('it should have the electionAdmin lastname', function() {
+      assert.equal(result[0].lastname, "Murchinson");
+    });  
+  }),
+
+  describe('Given an existing electionAdmin, when CreateElectionAdmin is called', function() {
+     var electionAdmin = new ElectionAdmin();
+     electionAdmin.hydrate(new ElectionAdminCreated("123", "Joy Murchinson"));
+     it('should return an "already exists" error', function() {
+        assert.throws(
+          () => {
+            electionAdmin.execute(new CreateElectionAdmin("123","Joy Murchinson"));
+          },
+          function(err) {
+            if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "ElectionAdmin already exists.") ) {
+              return true;
+            }
+          },
+          'unexpected error'
+        );
+     })
+  });
+  describe('Given CreateElectionAdmin is called with a blank lastname or firstname', function() {
+    it('the change should be rejected.', function() {
+      assert.throws(
+        () => {
+           var electionAdminId ="456";
+           var electionAdminAddress = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "addressRegion", "94043", "addressCountry")
+           var electionAdmin = new ElectionAdmin();
+           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, null, "", electionAdminAddress));
+        },
+        function(err) {
+          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "ElectionAdmin lastname is a required field.") 
+            && err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "ElectionAdmin firstname is a required field.")){
+            return true;
+          }
+        },
+        'unexpected error'
+      );
+    });
+  });
+  
+  describe('When CreateElectionAdmin is called with a blank electionAdmin id', function() {
+    it('then the change should be rejected.', function() {
+      assert.throws(
+        () => {
+           var electionAdminId ="";
+           var electionAdminName = "Joy Murchinson";
+           var electionAdminAddress = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "addressRegion", "94043", "addressCountry")
+           var electionAdmin = new ElectionAdmin();
+           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, electionAdminName, electionAdminAddress));
+        },
+        function(err) {
+          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "ElectionAdmin id is a required field.")){
+            return true;
+          }
+        },
+        'unexpected error'
+      );
+    });
+  });
+  
+  describe('When CreateElectionAdmin is called with a blank zip code in the address', function() {
+    it('then the change should be rejected.', function() {
+      assert.throws(
+        () => {
+           var electionAdminId ="456";
+           var electionAdminAddress = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "WA", "", "addressCountry")
+           var electionAdmin = new ElectionAdmin();
+           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, "Joy", "Murchinson", electionAdminAddress));
+        },
+        function(err) {
+          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Zip / Postal Code is a required field.")){
+            return true;
+          }
+        },
+        'unexpected error'
+      );
+    });
+  });    
+  describe('When CreateElectionAdmin is called with a blank state in the address', function() {
+    it('then the change should be rejected.', function() {
+      assert.throws(
+        () => {
+           var electionAdminId ="456";
+           var electionAdminAddress = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", null, "95534", "addressCountry")
+           var electionAdmin = new ElectionAdmin();
+           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, "Joy", "Murchinson", electionAdminAddress));
+        },
+        function(err) {
+          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "State is a required field.")){
+            return true;
+          }
+        },
+        'unexpected error'
+      );
+    });
+})})
