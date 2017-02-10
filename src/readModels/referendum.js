@@ -2,7 +2,7 @@ export const filters = {
   eventType: ['ReferendumCreated']
 };
 
-export function reducer(Referendumist, eventData) {
+export function reducer(referendumList, eventData) {
   const event = eventData.event;
   switch(eventData.typeId) {
     case 'ReferendumCreated':
