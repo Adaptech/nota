@@ -42,7 +42,7 @@ export default class ElectionAdmin {
       validationErrors.push({"field": "postalCode", "msg": "Zip / Postal Code is a required field."});
     }
     if(command.address && !command.address.addressRegion) {
-      validationErrors.push({"field": "state", "msg": "State is a required field."});
+      validationErrors.push({"field": "addressRegion", "msg": "Address Region is a required field."});
     }    
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);

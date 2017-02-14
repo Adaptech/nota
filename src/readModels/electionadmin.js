@@ -10,7 +10,8 @@ export function reducer(electionAdminList, eventData) {
       if(electionAdminRecordIndex === -1) {
         electionAdminList.push({
           electionAdminId: event.electionAdminId,
-          name: event.name,
+          firstname: event.firstname,
+          lastname: event.lastname,
           address: event.address, 
         });
       }
