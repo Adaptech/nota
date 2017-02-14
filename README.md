@@ -13,7 +13,7 @@ This is the result of the event storming we did for this:
 ## TODO:
 
 - DONE An election administrator currently has a name. Write the necessary tests to have a first name and last name instead and make them pass.
-- The ElectionAdmin controller needs to be modified to handle first- and lastname instead of name and the Postman API call example needs updating. 
+- The ElectionAdmin controller needs to be modified to handle first- and lastname instead of name and the Postman API call example needs updating.
 - _Hands-on example for the Thursday Feb. 9 2017 meetup:_ How would you handle versioning and existing data in this scenario?
 - Implement the ReferendumCreated event, a CreateReferendum command and a referendum read model, with tests. What are the properties of the event and the command?
 
@@ -26,7 +26,9 @@ This is the result of the event storming we did for this:
 See https://geteventstore.com/downloads/ .
 - unzip at ~/
 - cd into extracted folder
-- `./run-node.sh` (start event store)
+- `./run-node.sh` (start event store) or
+`./run-node.sh --int-ip=0.0.0.0 --ext-ip=0.0.0.0`
+if running in a Vagrant box
 - For the admin UI, go to ```http://localhost:2113```
 - login: admin pass: changeit (defaults)
 
