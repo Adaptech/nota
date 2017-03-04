@@ -49,3 +49,10 @@ web/node_modules
 **/.terraform
 **/terraform.tfstate*
 #lambda package zip files
+
+# Added by lcreid@jadesystems.ca to keep out some of the stuff he needs
+# to run in a Vagrant box.
+.rubocop.yml
+.vagrant
+EventStore-OSS-Ubuntu-*
+Vagrantfile
