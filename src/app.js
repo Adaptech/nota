@@ -47,7 +47,7 @@ function wireUp(config, esConnection) {
         next();
     });
 
-    app.use('/', express.static(path.join(__dirname, '..', 'web/build')));
+    app.use('/', express.static(path.join(__dirname, '..', 'web/public')));
 
     const services = {
         app: app,
