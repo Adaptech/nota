@@ -39,10 +39,10 @@ export default class Referendum {
       validationErrors.push({"field": "name", "msg": "Referendum name is a required field."});
     }   
     if(!command.options) {
-      validationErrors.push({"field": "optinos", "msg": "Referendum options are required."});
+      validationErrors.push({"field": "options", "msg": "Referendum options are required."});
     }
     if(command.options&&command.options.length < 2) {
-      validationErrors.push({"field": "optinos", "msg": "At least two options are required."});
+      validationErrors.push({"field": "options", "msg": "At least two options are required."});
     }   
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
