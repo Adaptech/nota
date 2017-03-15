@@ -59,6 +59,7 @@ export default class Referendum {
     }
     if(command.options&&Object.keys(command.options).length < 2) {
       validationErrors.push({"field": "optinos", "msg": "At least two options are required."});
+
     }   
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
