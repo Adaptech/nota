@@ -1,22 +1,33 @@
 import CreateReferendum from '../commands/CreateReferendum';
 import ReferendumCreated from '../events/ReferendumCreated';
+import CastVote from "../commands/CastVote"
+import VoteCast from "../events/VoteCast"
+
 import errors from '../domain/Errors';
 
 export default class Referendum {
   constructor() {
     this._id = null;
     this._options = {}
+    this._voters = []
   }
 
   hydrate(evt) {
       if (evt instanceof ReferendumCreated) {
         this._onReferendumCreated(evt);
-      } 
+      }
+    if (evt instanceof VoteCast) {
+      this._onVoteCast(evt);
+    }
   }
 
   _onReferendumCreated(evt) {
     this._id = evt.referendumId;
     this._options = evt.options;
+  }
+
+  _onVoteCast(evt){
+    this._voters.push(evt.voterId);
   }
 
   execute(command) {
@@ -72,6 +83,12 @@ export default class Referendum {
     }
     if(!Object.keys(this._options).find((option)=>option === command.vote)){
       validationErrors.push({"field": "vote", "msg": "Option does not exist."});
+    }
+    if(this._voters.find((voterId) => voterId === command.voterId)){
+      validationErrors.push({"field": "voterId", "msg": "Already voted on this referendum."});
+    }
+    if(validationErrors.length > 0) {
+      throw new errors.ValidationFailed(validationErrors);
     }
 
     var result = [];
