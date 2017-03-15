@@ -8,7 +8,7 @@
 describe('referendums', function() {
   describe('Given a Referendum doesn\'t exist yet, when CreateReferendum is called', function() {
      var referendum = new Referendum();
-     var options = ["Remain a member of European Union", "Leave the European Union"];
+     var options = {"Remain a member of European Union": 0, "Leave the European Union": 0};
      var result = referendum.execute(new CreateReferendum("134","Referendum on the United Kindom's membership of the European Union", "Should the United Kindom remain a member of the European Union?", options));
     it('it should publish a ReferendumCreated event', function() {
       assert.ok(result[0] instanceof ReferendumCreated);
@@ -23,22 +23,22 @@ describe('referendums', function() {
     it('it should have the referendum proposal', function() {
       assert.equal(result[0].proposal, "Should the United Kindom remain a member of the European Union?");
     });  
-    it('it should have two options initially', function() {
-      assert.equal(result[0].options.length, 3);
+    it('it should have three options initially', function() {
+      assert.equal(Object.keys(result[0].options).length, 3);
     });    
     it('it should have a first option', function() {
-      assert.equal(result[0].options[0], "Remain a member of European Union");
+      assert.equal(result[0].options["Remain a member of European Union"], 0);
     });   
     it('it should have a second option', function() {
-      assert.equal(result[0].options[1], "Leave the European Union");
+      assert.equal(result[0].options["Leave the European Union"], 0);
     });
     it('Third option has to be "None Of the above', function() {
-      assert.equal(result[0].options[2], "None of the above");
+      assert.equal(result[0].options["None of the above"], 0);
     });
   })
   describe('Given an existing referendum, when CreateReferendum is called', function() {
      var referendum = new Referendum();
-     var options = ["Remain a member of European Union", "Leave the European Union"];
+     var options = {"Remain a member of European Union":0, "Leave the European Union":0};
      referendum.hydrate(
        new ReferendumCreated(
          referendum.execute(
@@ -70,7 +70,7 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
     it('the change should be rejected.', function() {
       assert.throws(
         () => {
-           var options = ["Remain a member of European Union", "Leave the European Union"];
+           var options = {"Remain a member of European Union": 0, "Leave the European Union": 0};
            var referendum = new Referendum();
            referendum.execute(new CreateReferendum("134",
             null, 
@@ -91,7 +91,7 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
     it('then the change should be rejected.', function() {
       assert.throws(
         () => {
-           var options = ["Remain a member of European Union", "Leave the European Union"];
+          var options = {"Remain a member of European Union": 0, "Leave the European Union": 0};
            var referendum = new Referendum();
            referendum.execute(new CreateReferendum("",
             "Referendum on the United Kindom's membership of the European Union", 
@@ -124,12 +124,12 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
       );
     });
   });
-  describe('When CreateReferendum is called with empty list of options', function() {
+  describe('When CreateReferendum is called with empty options object', function() {
     it('then the change should be rejected.', function() {
       assert.throws(
         () => {
            var referendumId ="456";
-           var options = []
+           var options = {}
            var referendum = new Referendum();
            referendum.execute(new CreateReferendum(referendumId, "Referendum on the United Kindom's membership of the European Union", 
             "Should the United Kindom remain a member of the European Union?", options));

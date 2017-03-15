@@ -16,6 +16,20 @@ export function reducer(referendumList, eventData) {
         });
       }
       break;
+    case 'VoteCast':
+      var referendumRecordIndex = referendumList.findIndex(isInListAlready, eventData.event.referendumId);
+      if(referendumRecordIndex === -1) {
+        throw new Error("Referendum " + event.referendumId + ": Referendum with referendumId " + event.referendumId + " not found.");
+      }
+      let referendum = referendumList[referendumRecordIndex];
+      let currentTallyForOption = referendum.options[event.vote];
+      referendum.options[event.vote] = currentTallyForOption + 1;
+      referendumList = [
+        ...referendumList.slice(0, referendumRecordIndex),
+        referendum,
+        ...referendumList.slice(referendumRecordIndex+1)
+      ]
+      break;
   }
   return referendumList;
 }

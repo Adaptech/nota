@@ -5,6 +5,7 @@ import errors from '../domain/Errors';
 export default class Referendum {
   constructor() {
     this._id = null;
+    this._options = {}
   }
 
   hydrate(evt) {
@@ -15,11 +16,15 @@ export default class Referendum {
 
   _onReferendumCreated(evt) {
     this._id = evt.referendumId;
+    this._options = evt.options;
   }
 
   execute(command) {
     if (command instanceof CreateReferendum) {
       return this._CreateReferendum(command);
+    }
+    if(command instanceof CastVote){
+      return this._CastVote(command)
     }
     throw new Error('Unknown command.');
   }
@@ -39,17 +44,39 @@ export default class Referendum {
       validationErrors.push({"field": "name", "msg": "Referendum name is a required field."});
     }   
     if(!command.options) {
-      validationErrors.push({"field": "optinos", "msg": "Referendum options are required."});
+      validationErrors.push({"field": "options", "msg": "Referendum options are required."});
     }
-    if(command.options&&command.options.length < 2) {
+    if(command.options&&Object.keys(command.options).length < 2) {
       validationErrors.push({"field": "optinos", "msg": "At least two options are required."});
     }   
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }  
-    command.options.push("None of the above");
+    command.options["None of the above"]=0;
     var result = [];
     result.push(new ReferendumCreated(command.referendumId, command.name, command.proposal, command.options));
     return result;
+  }
+
+
+  _CastVote(command){
+    var validationErrors = [];
+    if(!command.referendumId) {
+      validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
+    }
+    if(!command.voterId) {
+      validationErrors.push({"field": "voterId", "msg": "Voter id is a required field."});
+    }
+    if(!command.vote) {
+      validationErrors.push({"field": "vote", "msg": "Vote is a required field."});
+    }
+    if(!Object.keys(this._options).find((option)=>option === command.vote)){
+      validationErrors.push({"field": "vote", "msg": "Option does not exist."});
+    }
+
+    var result = [];
+    result.push(new VoteCast(command.referendumId, command.voterId, command.vote));
+    return result;
+
   }
 }
