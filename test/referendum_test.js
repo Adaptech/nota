@@ -42,15 +42,13 @@ describe('referendums', function() {
      var referendum = new Referendum();
      var options = {"Remain a member of European Union":0, "Leave the European Union":0};
      referendum.hydrate(
-       new ReferendumCreated(
          referendum.execute(
            new CreateReferendum("134",
            "Referendum on the United Kindom's membership of the European Union", 
            "Should the United Kindom remain a member of the European Union?", 
            options
            )
-        )
-      )
+      )[0]
     );
      it('should return an "already exists" error', function() {
         assert.throws(

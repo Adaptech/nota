@@ -8,7 +8,7 @@ import errors from '../domain/Errors';
 export default class Referendum {
   constructor() {
     this._id = null;
-    this._options = {}
+    this._options = []
     this._voters = []
   }
 
@@ -23,7 +23,7 @@ export default class Referendum {
 
   _onReferendumCreated(evt) {
     this._id = evt.referendumId;
-    this._options = evt.options;
+    this._options = Object.keys(evt.options);
   }
 
   _onVoteCast(evt){
@@ -82,7 +82,7 @@ export default class Referendum {
     if(!command.vote) {
       validationErrors.push({"field": "vote", "msg": "Vote is a required field."});
     }
-    if(!Object.keys(this._options).find((option)=>option === command.vote)){
+    if(!this._options.find((option)=>option === command.vote)){
       validationErrors.push({"field": "vote", "msg": "Option does not exist."});
     }
     if(this._voters.find((voterId) => voterId === command.voterId)){
