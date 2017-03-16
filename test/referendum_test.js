@@ -144,6 +144,25 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
       );
     });
   })
+  describe('When CreateReferendum is called with one option', function() {
+    it('then the change should be rejected.', function () {
+      assert.throws(
+        () => {
+          var referendumId = "456";
+          var options = ["Remain a member of European Union"]
+          var referendum = new Referendum();
+          referendum.execute(new CreateReferendum(referendumId, "Referendum on the United Kindom's membership of the European Union",
+            "Should the United Kindom remain a member of the European Union?", options));
+        },
+        function (err) {
+          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "At least two options are required.")) {
+            return true;
+          }
+        },
+        'unexpected error'
+      );
+    });
+  })
 
   })
 
