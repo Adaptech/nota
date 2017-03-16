@@ -57,16 +57,19 @@ export default class Referendum {
     if(!command.options) {
       validationErrors.push({"field": "options", "msg": "Referendum options are required."});
     }
-    if(command.options&&Object.keys(command.options).length < 2) {
+    if(command.options&&command.options.length < 2) {
       validationErrors.push({"field": "optinos", "msg": "At least two options are required."});
-
     }   
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }  
-    command.options["None of the above"]=0;
+
+    command.options.push("None of the above");
+
+    const optionsWithTallies = command.options.reduce((acc, option)=>{acc[option]=0; return acc}, {});
+
     var result = [];
-    result.push(new ReferendumCreated(command.referendumId, command.name, command.proposal, command.options));
+    result.push(new ReferendumCreated(command.referendumId, command.name, command.proposal, optionsWithTallies));
     return result;
   }
 

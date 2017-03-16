@@ -10,7 +10,7 @@
 describe('referendums', function() {
   describe('Given a Referendum doesn\'t exist yet, when CreateReferendum is called', function() {
      var referendum = new Referendum();
-     var options = {"Remain a member of European Union": 0, "Leave the European Union": 0};
+     var options = ["Remain a member of European Union", "Leave the European Union"]
      var result = referendum.execute(new CreateReferendum("134","Referendum on the United Kindom's membership of the European Union", "Should the United Kindom remain a member of the European Union?", options));
     it('it should publish a ReferendumCreated event', function() {
       assert.ok(result[0] instanceof ReferendumCreated);
@@ -37,10 +37,11 @@ describe('referendums', function() {
     it('Third option has to be "None Of the above', function() {
       assert.equal(result[0].options["None of the above"], 0);
     });
+
   })
   describe('Given an existing referendum, when CreateReferendum is called', function() {
      var referendum = new Referendum();
-     var options = {"Remain a member of European Union":0, "Leave the European Union":0};
+     var options = ["Remain a member of European Union", "Leave the European Union"]
      referendum.hydrate(
          referendum.execute(
            new CreateReferendum("134",
@@ -70,7 +71,7 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
     it('the change should be rejected.', function() {
       assert.throws(
         () => {
-           var options = {"Remain a member of European Union": 0, "Leave the European Union": 0};
+           var options = ["Remain a member of European Union", "Leave the European Union"]
            var referendum = new Referendum();
            referendum.execute(new CreateReferendum("134",
             null, 
@@ -91,7 +92,7 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
     it('then the change should be rejected.', function() {
       assert.throws(
         () => {
-          var options = {"Remain a member of European Union": 0, "Leave the European Union": 0};
+          var options = ["Remain a member of European Union", "Leave the European Union"]
            var referendum = new Referendum();
            referendum.execute(new CreateReferendum("",
             "Referendum on the United Kindom's membership of the European Union", 
@@ -124,12 +125,12 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
       );
     });
   });
-  describe('When CreateReferendum is called with empty options object', function() {
+  describe('When CreateReferendum is called with empty options array', function() {
     it('then the change should be rejected.', function () {
       assert.throws(
         () => {
           var referendumId = "456";
-          var options = {}
+          var options = []
           var referendum = new Referendum();
           referendum.execute(new CreateReferendum(referendumId, "Referendum on the United Kindom's membership of the European Union",
             "Should the United Kindom remain a member of the European Union?", options));
