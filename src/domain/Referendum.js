@@ -9,7 +9,7 @@ export default class Referendum {
   constructor() {
     this._id = null;
     this._options = []
-    this._voters = []
+    this._voters = {}
   }
 
   hydrate(evt) {
@@ -27,7 +27,7 @@ export default class Referendum {
   }
 
   _onVoteCast(evt){
-    this._voters.push(evt.voterId);
+    this._voters[evt.voterId] = evt.vote;
   }
 
   execute(command) {
@@ -88,7 +88,7 @@ export default class Referendum {
     if(!this._options.find((option)=>option === command.vote)){
       validationErrors.push({"field": "vote", "msg": "Option does not exist."});
     }
-    if(this._voters.find((voterId) => voterId === command.voterId)){
+    if(this._voters[command.voterId]){
       validationErrors.push({"field": "voterId", "msg": "Already voted on this referendum."});
     }
     if(validationErrors.length > 0) {
