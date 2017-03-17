@@ -14,6 +14,7 @@ export default class ElectionAdminController {
             res.status(202).json(command);
           })
           .catch(err => {
+            console.log("cannot create admin: ", err)
             if(err.name == "ValidationFailed") {
               res.status(400).json({message: err.message});
             } else {

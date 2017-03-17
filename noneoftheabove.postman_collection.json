@@ -49,7 +49,7 @@
 			"description": "",
 			"collectionId": "3b852148-5b61-1ccb-a84d-deea19461e40",
 			"responses": [],
-			"rawModeData": "{\n   \"electionAdminId\": \"36107b1d-a120-4f8a-ae1a-0c913fc04c61\",\n   \"name\": \"Joy Murchinson\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Stueben\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Bingen\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
+			"rawModeData": "{\n   \"electionAdminId\": \"36107b1d-a120-4f8a-ae1a-0c913fc04c61\",\n   \"firstname\": \"Joy\",\n   \"lastname\": \"Murchinson\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Stueben\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Bingen\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
 		}
 	]
 }
