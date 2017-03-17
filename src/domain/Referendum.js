@@ -27,7 +27,7 @@ export default class Referendum {
   }
 
   _onVoteCast(evt){
-    this._voters[evt.voterId] = evt.vote;
+    this._voters[evt.voterId] = true;
   }
 
   execute(command) {
@@ -66,7 +66,14 @@ export default class Referendum {
 
     command.options.push("None of the above");
 
-    const optionsWithTallies = command.options.reduce((acc, option)=>{acc[option]=0; return acc}, {});
+    const optionsWithTallies = command.options.reduce(
+        (accumulatingOptionsWithTallies, option)=>
+        {
+          accumulatingOptionsWithTallies[option]=0;
+          return accumulatingOptionsWithTallies
+        },
+      {}
+      );
 
     var result = [];
     result.push(new ReferendumCreated(command.referendumId, command.name, command.proposal, optionsWithTallies));
