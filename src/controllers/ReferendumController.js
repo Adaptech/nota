@@ -1,6 +1,5 @@
 import Referendum from '../domain/Referendum';
 import CreateReferendum from '../commands/CreateReferendum';
-import PostalAddress from '../domain/PostalAddress';
 
 export default class ReferendumController {
   constructor(app, readRepository, commandHandler, logger) {

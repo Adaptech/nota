@@ -59,7 +59,7 @@ function wireUp(config, esConnection) {
     registerControllers(services);
     new ReadModelGenericController(app, readRepository, Logger);
 
-    app.use(function (err, req, res, next) {
+    app.use(function (err, req, res) {
         Logger.error(err.stack);
         res.status(500).send({message: err.message, code: err.code || 'unknown'});
     });
