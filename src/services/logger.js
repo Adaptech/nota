@@ -1,25 +1,25 @@
 const util = require('util');
 
 class Logger {
-    static error(fmt /*, ...args */) {
+    static error(/*, ...args */) {
         const isoDate = new Date().toISOString();
         const result = util.format.apply(this, Array.prototype.slice.call(arguments, 0));
         console.log(isoDate, 'ERROR', result);
     }
 
-    static info(fmt /*, ...args */) {
+    static info(/*, ...args */) {
         const isoDate = new Date().toISOString();
         const result = util.format.apply(this, Array.prototype.slice.call(arguments, 0));
         console.log(isoDate, 'INFO', result);
     }
 
-    static debug(fmt /*, ...args */) {
+    static debug(/*, ...args */) {
         const isoDate = new Date().toISOString();
         const result = util.format.apply(this, Array.prototype.slice.call(arguments, 0));
         console.log(isoDate, 'DEBUG', result);
     }
 
-    static access(fmt /*, ...args */) {
+    static access(/*, ...args */) {
         const isoDate = new Date().toISOString();
         const result = util.format.apply(this, Array.prototype.slice.call(arguments, 0));
         console.log(isoDate, 'ACCESS', result);

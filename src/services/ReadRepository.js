@@ -20,25 +20,6 @@ function filter(rows, constraints) {
     }, rows);
 }
 
-function DependencyProvider(dependencies, values) {
-    if (!Array.isArray(dependencies)) {
-        throw new TypeError('Parameter dependencies must be an array.');
-    }
-    if (!Array.isArray(values)) {
-        throw new TypeError('Parameter values must be an array.');
-    }
-    if (dependencies.length !== values.length) {
-        throw new Error('Parameter dependencies and values must have same length.');
-    }
-    this.get = function (modelName, constraints) {
-        const index = dependencies.indexOf(modelName);
-        if (index < 0) {
-            throw new Error('Dependency missing: ' + modelName);
-        }
-        return filter(values[index], constraints);
-    };
-}
-
 function ReadRepository(esConnection, logger) {
     const models = {};
     const readStore = {};
