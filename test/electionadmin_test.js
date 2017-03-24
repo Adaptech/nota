@@ -37,7 +37,7 @@ describe('electionadmins', function() {
      it('should return an "already exists" error', function() {
         assert.throws(
           () => {
-            electionAdmin.execute(new CreateElectionAdmin("123","Joy", "Murchinson"));
+            electionAdmin.execute(new CreateElectionAdmin("123","Joy", "Murchinson", "94043", "addressCountry"));
           },
           function(err) {
             if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "ElectionAdmin already exists.") ) {
@@ -76,7 +76,7 @@ describe('electionadmins', function() {
            var electionAdminName = "Joy Murchinson";
            var electionAdminAddress = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "addressRegion", "94043", "addressCountry")
            var electionAdmin = new ElectionAdmin();
-           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, electionAdminName, electionAdminAddress));
+           electionAdmin.execute(new CreateElectionAdmin(electionAdminId, electionAdminName, electionAdminName, electionAdminAddress));
         },
         function(err) {
           if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "ElectionAdmin id is a required field.")){
