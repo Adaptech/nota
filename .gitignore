@@ -56,3 +56,6 @@ web/node_modules
 .vagrant
 EventStore-OSS-Ubuntu-*
 Vagrantfile
+
+**/.idea/workspace.xml **/.idea/tasks.xml
+
