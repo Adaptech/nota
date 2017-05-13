@@ -4,13 +4,13 @@
 	"description": "",
 	"order": [
 		"95139fac-ef2e-fa71-808d-fd216347d4e6",
-		"44667ecb-b13a-1b3f-c142-58441dd5c30f"
+		"44667ecb-b13a-1b3f-c142-58441dd5c30f",
+		"cc2095ae-a450-34e9-c030-a17c09b92a2b"
 	],
 	"folders": [],
 	"timestamp": 1484874935798,
 	"owner": 0,
 	"public": false,
-	"hasRequests": true,
 	"requests": [
 		{
 			"id": "44667ecb-b13a-1b3f-c142-58441dd5c30f",
@@ -51,6 +51,26 @@
 			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",
 			"responses": [],
 			"rawModeData": "{\n   \"electionAdminId\": \"{{electionAdminId}}\",\n   \"firstname\": \"Joy\",\n   \"lastname\": \"Murchinson\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Stueben\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Bingen\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
+		},
+		{
+			"id": "cc2095ae-a450-34e9-c030-a17c09b92a2b",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{protocol}}://{{server}}/api/v1/organization/create",
+			"preRequestScript": "postman.setEnvironmentVariable(\"organizationId\", \"{{$guid}}\");\n",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1494694660486,
+			"name": "/api/v1/organization/create",
+			"description": "",
+			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",
+			"responses": [],
+			"rawModeData": "{\n   \"organizationId\": \"{{organizationId}}\",\n   \"name\": \"Boundary-Similkameen BC Provincial Electoral District\",\n   \"electionAdminId\": \"{{electionAdminId}}\"\n}"
 		}
 	]
 }
