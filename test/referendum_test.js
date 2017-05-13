@@ -1,10 +1,7 @@
 /* eslint-env mocha */
  import Referendum from '../src/domain/Referendum';
- import errors from '../src/domain/Errors';
  import CreateReferendum from '../src/commands/CreateReferendum';
  import ReferendumCreated from '../src/events/ReferendumCreated';
- import VoteCast from "../src/events/VoteCast";
- import CastVote from "../src/commands/CastVote"
  import assert from 'assert';
 
 describe('referendums', function() {

@@ -65,7 +65,7 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1494694660486,
+			"time": 1494695710891,
 			"name": "/api/v1/organization/create",
 			"description": "",
 			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",

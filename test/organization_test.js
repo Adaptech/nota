@@ -1,8 +1,8 @@
 /* eslint-env mocha */
  import Organization from '../src/domain/Organization';
- import errors from '../src/domain/Errors';
  import CreateOrganization from '../src/commands/CreateOrganization';
  import OrganizationCreated from '../src/events/OrganizationCreated';
+ import ElectionAdminAppointed from '../src/events/ElectionAdminAppointed';
  import assert from 'assert';
 
 describe('organizations', function() {
@@ -11,7 +11,12 @@ describe('organizations', function() {
      var result = organization.execute(new CreateOrganization("134","Coquitlam-Maillardville BC Provincial Electoral District", "admin-1"));
     it('it should publish a OrganizationCreated event', function() {
       assert.ok(result[0] instanceof OrganizationCreated);
-      assert.ok(result.length == 1)
+    }),
+    it('there should be an election administrator for the new organization', function() {
+      assert.ok(result[1] instanceof ElectionAdminAppointed);
+    }),
+    it('two events should have occurred', function() {
+      assert.ok(result.length == 2)
     }),
     it('it should have the organization id', function() {
       assert.equal(result[0].organizationId, "134");
@@ -19,6 +24,12 @@ describe('organizations', function() {
     it('it should have the organization name', function() {
       assert.equal(result[0].name, "Coquitlam-Maillardville BC Provincial Electoral District", "admin-1");
     });  
+    it('the election administrator should have the right id', function() {
+      assert.equal(result[1].electionAdminId, "admin-1");
+    })
+    it('the election administrator should have been appointed to the correct organization', function() {
+      assert.equal(result[1].organizationId, "134");
+    })
   })
   describe('Given an existing organization, when CreateOrganization is called', function() {
      var organization = new Organization();

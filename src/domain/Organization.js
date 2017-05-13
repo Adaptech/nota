@@ -1,5 +1,6 @@
 import CreateOrganization from '../commands/CreateOrganization';
 import OrganizationCreated from '../events/OrganizationCreated';
+import ElectionAdminAppointed from '../events/ElectionAdminAppointed';
 import CastVote from "../commands/CastVote"
 import VoteCast from "../events/VoteCast"
 
@@ -19,7 +20,6 @@ export default class Organization {
 
   _onOrganizationCreated(evt) {
     this._id = evt.organizationId;
-    this._name = evt.name;
   }
 
   execute(command) {
@@ -49,6 +49,7 @@ export default class Organization {
 
     var result = [];
     result.push(new OrganizationCreated(command.organizationId, command.name));
+    result.push(new ElectionAdminAppointed(command.organizationId, command.electionAdminId));
     return result;
   }
 }
