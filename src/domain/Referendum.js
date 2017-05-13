@@ -23,7 +23,7 @@ export default class Referendum {
 
   _onReferendumCreated(evt) {
     this._id = evt.referendumId;
-    this._options = Object.keys(evt.options);
+    this._options = evt.options
   }
 
   _onVoteCast(evt){
@@ -64,24 +64,12 @@ export default class Referendum {
       validationErrors.push({"field": "options", "msg": "At least two options are required."});
     }   
     if(validationErrors.length > 0) {
-      console.log(validationErrors)
       throw new errors.ValidationFailed(validationErrors);
     }  
-
-    console.log(command)
     command.options.push("None of the above");
 
-    const optionsWithTallies = command.options.reduce(
-        (accumulatingOptionsWithTallies, option)=>
-        {
-          accumulatingOptionsWithTallies[option]=0;
-          return accumulatingOptionsWithTallies
-        },
-      {}
-      );
-
     var result = [];
-    result.push(new ReferendumCreated(command.referendumId, command.organizationId, command.name, command.proposal, optionsWithTallies));
+    result.push(new ReferendumCreated(command.referendumId, command.organizationId, command.name, command.proposal, command.options));
     return result;
   }
 

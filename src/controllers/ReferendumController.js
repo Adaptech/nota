@@ -4,7 +4,6 @@ import CreateReferendum from '../commands/CreateReferendum';
 export default class ReferendumController {
   constructor(app, readRepository, commandHandler, logger) {
     function CreateReferendumHandler(req, res) {
-      console.log(req.body)
       var params = req.body;
       var options = params.options;
       const command = new CreateReferendum(params.referendumId, params.organizationId, params.name, params.proposal, options);
@@ -21,6 +20,6 @@ export default class ReferendumController {
             }
           });
     }
-    app.post('/api/v1/referendum/create', CreateReferendumHandler);
+    app.post('/api/v1/organization/referendum/create', CreateReferendumHandler);
    }
 }

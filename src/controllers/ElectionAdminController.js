@@ -5,7 +5,6 @@ import PostalAddress from '../domain/PostalAddress';
 export default class ElectionAdminController {
   constructor(app, readRepository, commandHandler, logger) {
     function CreateElectionAdminHandler(req, res) {
-      console.log(req.body)
       var params = req.body;
       var address = new PostalAddress(params.address.streetAddress, params.address.postOfficeBoxNumber, params.address.addressLocality, params.address.addressRegion, params.address.postalCode, params.address.addressCountry)
       const command = new CreateElectionAdmin(params.electionAdminId, params.firstname, params.lastname, address);
@@ -14,7 +13,6 @@ export default class ElectionAdminController {
             res.status(202).json(command);
           })
           .catch(err => {
-            console.log("cannot create admin: ", err)
             if(err.name == "ValidationFailed") {
               res.status(400).json({message: err.message});
             } else {
