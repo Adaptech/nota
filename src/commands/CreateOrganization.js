@@ -1,6 +1,6 @@
-export default class CreateReferendum {
+export default class CreateOrganization {
   constructor(organizationId, name, electionAdminId) {
-    this.organizationId = organizationId; 
+    this.organizationId = organizationId;  // mandatory
     this.name = name; // mandatory
     this.electionAdminId = electionAdminId; // mandatory
   }

@@ -7,7 +7,7 @@ export default class ReferendumController {
       console.log(req.body)
       var params = req.body;
       var options = params.options;
-      const command = new CreateReferendum(params.referendumId, params.name, params.proposal, options);
+      const command = new CreateReferendum(params.referendumId, params.organizationId, params.name, params.proposal, options);
       commandHandler(command.referendumId, new Referendum(), command)
           .then(() => {
             res.status(202).json(command);

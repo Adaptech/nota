@@ -12,7 +12,7 @@ describe('VoteCast', function() {
     let voterId = "v-456"
     let vote = "Remain a member of European Union";
 
-    referendum.hydrate(new ReferendumCreated("134", "Referendum on the United Kindom's membership of the European Union", "Should the United Kindom remain a member of the European Union?", options));
+    referendum.hydrate(new ReferendumCreated("134", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
 
     describe('When CastVote is called', function () {
       let result = referendum.execute(new CastVote(referendumId, voterId, vote));
@@ -32,7 +32,7 @@ describe('VoteCast', function() {
 
     describe('When CastVote is called with a missing referendumId', function () {
 
-      referendum.hydrate(new ReferendumCreated(referendumId, "Referendum on the United Kindom's membership of the European Union", "Should the United Kindom remain a member of the European Union?", options));
+      referendum.hydrate(new ReferendumCreated(referendumId, "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
 
       it('The change should be rejected', function () {
         assert.throws(

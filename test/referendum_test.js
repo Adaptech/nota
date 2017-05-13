@@ -8,7 +8,10 @@ describe('referendums', function() {
   describe('Given a Referendum doesn\'t exist yet, when CreateReferendum is called', function() {
      var referendum = new Referendum();
      var options = ["Remain a member of European Union", "Leave the European Union"]
-     var result = referendum.execute(new CreateReferendum("134","Referendum on the United Kindom's membership of the European Union", "Should the United Kindom remain a member of the European Union?", options));
+     var result = referendum.execute(new CreateReferendum("134", "organization-1", 
+        "Referendum Name", 
+        "Should the United Klingon remain a member of the European Union?", 
+        options));
     it('it should publish a ReferendumCreated event', function() {
       assert.ok(result[0] instanceof ReferendumCreated);
       assert.ok(result.length == 1)
@@ -16,11 +19,14 @@ describe('referendums', function() {
     it('it should have the referendum id', function() {
       assert.equal(result[0].referendumId, "134");
     });
+    it('it should have the organization id', function() {
+      assert.equal(result[0].organizationId, "organization-1");
+    });
     it('it should have the referendum name', function() {
-      assert.equal(result[0].name, "Referendum on the United Kindom's membership of the European Union");
+      assert.equal(result[0].name, "Referendum on the United Klingon's membership of the European Union");
     });  
     it('it should have the referendum proposal', function() {
-      assert.equal(result[0].proposal, "Should the United Kindom remain a member of the European Union?");
+      assert.equal(result[0].proposal, "Should the United Klingon remain a member of the European Union?");
     });  
     it('it should have three options initially', function() {
       assert.equal(Object.keys(result[0].options).length, 3);
@@ -41,9 +47,8 @@ describe('referendums', function() {
      var options = ["Remain a member of European Union", "Leave the European Union"]
      referendum.hydrate(
          referendum.execute(
-           new CreateReferendum("134",
-           "Referendum on the United Kindom's membership of the European Union", 
-           "Should the United Kindom remain a member of the European Union?", 
+           new CreateReferendum("134", "organization-1", "Referendum Name",
+           "Should the United Klingon remain a member of the European Union?", 
            options
            )
       )[0]
@@ -51,9 +56,9 @@ describe('referendums', function() {
      it('should return an "already exists" error', function() {
         assert.throws(
           () => {
-            referendum.execute(new CreateReferendum("134",
-            "Referendum on the United Kindom's membership of the European Union", 
-            "Should the United Kindom remain a member of the European Union?", options));
+            referendum.execute(new CreateReferendum("134", "organization-1",
+            "Referendum Name",
+            "Should the United Klingon remain a member of the European Union?", options));
           },
           function(err) {
             if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Referendum already exists.") ) {
@@ -70,7 +75,7 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
         () => {
            var options = ["Remain a member of European Union", "Leave the European Union"]
            var referendum = new Referendum();
-           referendum.execute(new CreateReferendum("134",
+           referendum.execute(new CreateReferendum("134", "organization-1",
             null, 
             "", options));
         },
@@ -91,9 +96,9 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
         () => {
           var options = ["Remain a member of European Union", "Leave the European Union"]
            var referendum = new Referendum();
-           referendum.execute(new CreateReferendum("",
-            "Referendum on the United Kindom's membership of the European Union", 
-            "Should the United Kindom remain a member of the European Union?", options));
+           referendum.execute(new CreateReferendum("", "organization-1",
+            "Referendum Name",
+            "Should the United Klingon remain a member of the European Union?", options));
         },
         function(err) {
           if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Referendum id is a required field.")){
@@ -110,8 +115,9 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
         () => {
            var referendumId ="456";
            var referendum = new Referendum();
-           referendum.execute(new CreateReferendum(referendumId, "Referendum on the United Kindom's membership of the European Union", 
-            "Should the United Kindom remain a member of the European Union?", null));
+           referendum.execute(new CreateReferendum(referendumId, "organization-1", 
+           "Referendum on the United Klingon's membership of the European Union", 
+            "Should the United Klingon remain a member of the European Union?", null));
         },
         function(err) {
           if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Referendum options are required.")){
@@ -129,8 +135,9 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
           var referendumId = "456";
           var options = []
           var referendum = new Referendum();
-          referendum.execute(new CreateReferendum(referendumId, "Referendum on the United Kindom's membership of the European Union",
-            "Should the United Kindom remain a member of the European Union?", options));
+          referendum.execute(new CreateReferendum(referendumId, "organization-1", 
+            "Referendum on the United Klingon's membership of the European Union",
+            "Should the United Klingon remain a member of the European Union?", options));
         },
         function (err) {
           if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "At least two options are required.")) {
@@ -148,8 +155,9 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
           var referendumId = "456";
           var options = ["Remain a member of European Union"]
           var referendum = new Referendum();
-          referendum.execute(new CreateReferendum(referendumId, "Referendum on the United Kindom's membership of the European Union",
-            "Should the United Kindom remain a member of the European Union?", options));
+          referendum.execute(new CreateReferendum(referendumId, "organization-1", 
+            "Referendum on the United Klingon's membership of the European Union",
+            "Should the United Klingon remain a member of the European Union?", options));
         },
         function (err) {
           if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "At least two options are required.")) {
@@ -162,5 +170,3 @@ describe('Given CreateReferendum is called with a blank name or proposal', funct
   })
 
   })
-
-

@@ -48,6 +48,9 @@ export default class Referendum {
     if(!command.referendumId) {
       validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
     }
+    if(!command.organizationId) {
+      validationErrors.push({"field": "organizationId", "msg": "Organization id is a required field."});
+    }
     if(!command.proposal) {
       validationErrors.push({"field": "proposal", "msg": "Referendum proposal is a required field."});
     }   
@@ -58,12 +61,14 @@ export default class Referendum {
       validationErrors.push({"field": "options", "msg": "Referendum options are required."});
     }
     if(command.options&&command.options.length < 2) {
-      validationErrors.push({"field": "optinos", "msg": "At least two options are required."});
+      validationErrors.push({"field": "options", "msg": "At least two options are required."});
     }   
     if(validationErrors.length > 0) {
+      console.log(validationErrors)
       throw new errors.ValidationFailed(validationErrors);
     }  
 
+    console.log(command)
     command.options.push("None of the above");
 
     const optionsWithTallies = command.options.reduce(
@@ -76,7 +81,7 @@ export default class Referendum {
       );
 
     var result = [];
-    result.push(new ReferendumCreated(command.referendumId, command.name, command.proposal, optionsWithTallies));
+    result.push(new ReferendumCreated(command.referendumId, command.organizationId, command.name, command.proposal, optionsWithTallies));
     return result;
   }
 
