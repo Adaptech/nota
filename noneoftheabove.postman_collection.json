@@ -7,7 +7,8 @@
 		"44667ecb-b13a-1b3f-c142-58441dd5c30f",
 		"cc2095ae-a450-34e9-c030-a17c09b92a2b",
 		"b1ee1934-de07-c6ef-74c9-90f526e74609",
-		"e9abc44d-981f-438a-6bca-24f99b09a82b"
+		"e9abc44d-981f-438a-6bca-24f99b09a82b",
+		"b901633e-cce2-1bdf-eb5b-7898c3405c5b"
 	],
 	"folders": [],
 	"timestamp": 1484874935798,
@@ -73,6 +74,26 @@
 			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",
 			"responses": [],
 			"rawModeData": "{\n   \"referendumId\": \"{{referendumId}}\",\n   \"organizationId\": \"{{organizationId}}\",\n   \"name\": \"A Test Referendum\",\n   \"proposal\": \"Whom should we vote for?\",\n   \"options\": [\"Lenora Billings\",\"Archibald Lanister\", \"Joe Smith\"]\n}"
+		},
+		{
+			"id": "b901633e-cce2-1bdf-eb5b-7898c3405c5b",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{protocol}}://{{server}}/api/v1/organization/voter/register",
+			"preRequestScript": "postman.setEnvironmentVariable(\"voterId\", \"{{$guid}}\");",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1494707925410,
+			"name": "/api/v1/organization/voter/register",
+			"description": "",
+			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",
+			"responses": [],
+			"rawModeData": "{\n   \"voterId\": \"{{voterId}}\",\n   \"firstname\": \"John\",\n   \"lastname\": \"Miller\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Main\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Agassiz\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
 		},
 		{
 			"id": "cc2095ae-a450-34e9-c030-a17c09b92a2b",
