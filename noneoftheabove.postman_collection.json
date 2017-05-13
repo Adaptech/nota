@@ -1,18 +1,19 @@
 {
-	"id": "3b852148-5b61-1ccb-a84d-deea19461e40",
+	"id": "5c30e581-5060-bc27-e472-d3000dc04e3e",
 	"name": "noneoftheabove",
 	"description": "",
 	"order": [
-		"97515a85-5f70-4919-be35-63eef407ff33",
-		"8309d9cf-93d2-cf72-8b31-371a2f7a6099"
+		"95139fac-ef2e-fa71-808d-fd216347d4e6",
+		"44667ecb-b13a-1b3f-c142-58441dd5c30f"
 	],
 	"folders": [],
 	"timestamp": 1484874935798,
 	"owner": 0,
 	"public": false,
+	"hasRequests": true,
 	"requests": [
 		{
-			"id": "8309d9cf-93d2-cf72-8b31-371a2f7a6099",
+			"id": "44667ecb-b13a-1b3f-c142-58441dd5c30f",
 			"headers": "Content-Type: application/json\n",
 			"url": "{{protocol}}://{{server}}/api/v1/r/electionadmin/",
 			"preRequestScript": null,
@@ -27,15 +28,15 @@
 			"time": 1485531536275,
 			"name": "/api/v1/r/electionadmin",
 			"description": "",
-			"collectionId": "3b852148-5b61-1ccb-a84d-deea19461e40",
+			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",
 			"responses": [],
 			"rawModeData": ""
 		},
 		{
-			"id": "97515a85-5f70-4919-be35-63eef407ff33",
+			"id": "95139fac-ef2e-fa71-808d-fd216347d4e6",
 			"headers": "Content-Type: application/json\n",
 			"url": "{{protocol}}://{{server}}/api/v1/electionadmin/create",
-			"preRequestScript": null,
+			"preRequestScript": "postman.setEnvironmentVariable(\"electionAdminId\", \"{{$guid}}\");",
 			"pathVariables": {},
 			"method": "POST",
 			"data": [],
@@ -44,12 +45,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1485541880209,
+			"time": 1494689945627,
 			"name": "/api/v1/electionadmin/create",
 			"description": "",
-			"collectionId": "3b852148-5b61-1ccb-a84d-deea19461e40",
+			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",
 			"responses": [],
-			"rawModeData": "{\n   \"electionAdminId\": \"36107b1d-a120-4f8a-ae1a-0c913fc04c61\",\n   \"firstname\": \"Joy\",\n   \"lastname\": \"Murchinson\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Stueben\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Bingen\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
+			"rawModeData": "{\n   \"electionAdminId\": \"{{electionAdminId}}\",\n   \"firstname\": \"Joy\",\n   \"lastname\": \"Murchinson\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Stueben\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Bingen\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
 		}
 	]
 }

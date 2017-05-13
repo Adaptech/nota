@@ -32,7 +32,7 @@
     "test": "npm run test-server",
     "test-server-output-markdown": "mocha --reporter markdown --compilers js:babel-core/register",
     "test-server": "mocha --compilers js:babel-core/register",
-    "test-api": "newman run noneoftheabove.postman_collection.json -e local.postman_environment.json",
+    "test-api": "newman run noneoftheabove.postman_collection.json -e noneoftheabove-localhost-postman-environment.postman_environment.json",
     "test-debug": "mocha --debug-brk --compilers js:babel-core/register",
     "start": "npm run server",
     "server": "babel-node --presets es2015 src/app local"
