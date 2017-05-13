@@ -23,9 +23,6 @@ describe('VoteCast', function() {
       it('it should have the referendum id', function () {
         assert.equal(result[0].referendumId, referendumId);
       });
-      it('it should have the voterId', function () {
-        assert.equal(result[0].voterId, voterId);
-      });
       it('it should have the vote', function () {
         assert.equal(result[0].vote, vote);
       });
@@ -52,21 +49,6 @@ describe('VoteCast', function() {
       })
     })
 
-    describe('When CastVote is called with a missing voterId', function () {
-      it('The change should be rejected', function () {
-        assert.throws(
-          () => {
-            referendum.execute(new CastVote(referendumId, "", vote));
-          },
-          function (err) {
-            if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Voter id is a required field.")) {
-              return true;
-            }
-          },
-          'unexpected error'
-        );
-      })
-    })
     describe('When CastVote is called with a missing vote', function () {
       it('The change should be rejected', function () {
         assert.throws(
@@ -92,25 +74,6 @@ describe('VoteCast', function() {
           },
           function (err) {
             if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Option does not exist.")) {
-              return true;
-            }
-          },
-          'unexpected error'
-        );
-      })
-    })
-
-    describe('When CastVote is called a second time for the same voter', function () {
-
-      referendum.hydrate(new VoteCast(referendumId, voterId, vote))
-
-      it('The change should be rejected', function () {
-        assert.throws(
-          () => {
-            referendum.execute(new CastVote(referendumId, voterId, vote));
-          },
-          function (err) {
-            if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Already voted on this referendum.")) {
               return true;
             }
           },

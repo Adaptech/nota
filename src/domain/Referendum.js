@@ -95,15 +95,12 @@ export default class Referendum {
     if(!this._options.find((option)=>option === command.vote)){
       validationErrors.push({"field": "vote", "msg": "Option does not exist."});
     }
-    if(this._voters[command.voterId]){
-      validationErrors.push({"field": "voterId", "msg": "Already voted on this referendum."});
-    }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }
 
     var result = [];
-    result.push(new VoteCast(command.referendumId, command.voterId, command.vote));
+    result.push(new VoteCast(command.referendumId, command.vote));
     return result;
 
   }
