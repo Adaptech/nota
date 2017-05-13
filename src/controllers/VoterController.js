@@ -7,7 +7,7 @@ export default class VoterController {
     function RegisterVoterHandler(req, res) {
       var params = req.body;
       var address = new PostalAddress(params.address.streetAddress, params.address.postOfficeBoxNumber, params.address.addressLocality, params.address.addressRegion, params.address.postalCode, params.address.addressCountry)
-      const command = new RegisterVoter(params.voterId, params.firstname, params.lastname, address);
+      const command = new RegisterVoter(params.voterId, params.organizationId, params.firstname, params.lastname, address);
       commandHandler(command.voterId, new Voter(), command)
           .then(() => {
             res.status(202).json(command);

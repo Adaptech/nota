@@ -88,12 +88,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1494707925410,
+			"time": 1494708854596,
 			"name": "/api/v1/organization/voter/register",
 			"description": "",
 			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",
 			"responses": [],
-			"rawModeData": "{\n   \"voterId\": \"{{voterId}}\",\n   \"firstname\": \"John\",\n   \"lastname\": \"Miller\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Main\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Agassiz\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
+			"rawModeData": "{\n   \"voterId\": \"{{voterId}}\",\n   \"organizationId\": \"{{organizationId}}\",\n   \"firstname\": \"John\",\n   \"lastname\": \"Miller\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Main\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Agassiz\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
 		},
 		{
 			"id": "cc2095ae-a450-34e9-c030-a17c09b92a2b",

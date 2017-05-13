@@ -1,9 +1,10 @@
 export default class VoterRegistered {
-  constructor(voterId, firstname, lastname, address) {
+  constructor(voterId, organizationId, firstname, lastname, address) {
     this.voterId = voterId; 
-    this.firstname = firstname; // mandatory
-    this.lastname = lastname; // mandatory
-    this.address = address; // mandatory. MUST contain zip or postal code.
+    this.organizationId = organizationId; // mandatory    
+    this.firstname = firstname;
+    this.lastname = lastname; 
+    this.address = address; 
     // TODO: this.email from OAUTH2. 
   }
 };

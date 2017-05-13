@@ -32,6 +32,9 @@ export default class Voter {
     if(!command.voterId) {
       validationErrors.push({"field": "voterId", "msg": "Voter id is a required field."});
     }
+    if(!command.organizationId) {
+      validationErrors.push({"field": "organizationId", "msg": "Organization id is a required field."});
+    }
     if(!command.firstname) {
       validationErrors.push({"field": "firstname", "msg": "Voter firstname is a required field."});
     }
@@ -48,7 +51,7 @@ export default class Voter {
       throw new errors.ValidationFailed(validationErrors);
     }
     var result = [];
-    result.push(new VoterRegistered(command.voterId, command.firstname, command.lastname, command.address));
+    result.push(new VoterRegistered(command.voterId, command.organizationId, command.firstname, command.lastname, command.address));
     return result;
   }
 }
