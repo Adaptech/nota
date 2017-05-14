@@ -1,22 +1,25 @@
 import CreateReferendum from '../commands/CreateReferendum';
-import ReferendumCreated from '../events/ReferendumCreated';
 import AuthenticateVoter from "../commands/AuthenticateVoter"
 import CastVote from "../commands/CastVote"
+import ReferendumCreated from '../events/ReferendumCreated';
+import VoterAuthenticated from "../events/VoterAuthenticated"
 import VoteCast from "../events/VoteCast"
-
 import errors from '../domain/Errors';
 
 export default class Referendum {
   constructor() {
     this._id = null;
     this._options = []
-    this._voters = {}
+    this._votersWhoHaveAlreadyVoted = []
   }
 
   hydrate(evt) {
-      if (evt instanceof ReferendumCreated) {
-        this._onReferendumCreated(evt);
-      }
+    if (evt instanceof ReferendumCreated) {
+      this._onReferendumCreated(evt);
+    }
+    if (evt instanceof VoterAuthenticated) {
+      this._onVoterAuthenticated(evt);
+    }
     if (evt instanceof VoteCast) {
       this._onVoteCast(evt);
     }
@@ -27,8 +30,12 @@ export default class Referendum {
     this._options = evt.options
   }
 
+  _onVoterAuthenticated(evt) {
+    this._votersWhoHaveAlreadyVoted.push(evt.voterId);
+  }
+
   _onVoteCast(evt){
-    this._voters[evt.voterId] = true;
+    this._votersWhoHaveAlreadyVoted[evt.voterId] = true;
   }
 
   execute(command) {
@@ -91,15 +98,17 @@ export default class Referendum {
     if(command.voterList.indexOf(command.voterId) === -1) {
       validationErrors.push({"field": "voterId", "msg": "Voter is not on voter list"});
     }
+    if(this._votersWhoHaveAlreadyVoted.indexOf(command.voterId) != -1) {
+      validationErrors.push({"field": "voterId", "msg": "Voter has already voted"});      
+    }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }  
 
     var result = [];
-    // result.push(new ReferendumCreated(command.referendumId, command.organizationId, command.name, command.proposal, command.options));
+    result.push(new VoterAuthenticated(command.referendumId, command.organizationId, command.voterId));
     return result;
   }
-
 
   _CastVote(command){
     var validationErrors = [];
@@ -122,6 +131,5 @@ export default class Referendum {
     var result = [];
     result.push(new VoteCast(command.referendumId, command.vote));
     return result;
-
   }
 }
