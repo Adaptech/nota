@@ -3,10 +3,6 @@ import ElectionAdminCreated from '../events/ElectionAdminCreated';
 import errors from '../domain/Errors';
 
 export default class ElectionAdmin {
-  //constructor() {
-   // this._id = null;
-  //}
-
   constructor(address) {
   this._id = null;
       this.address = address;

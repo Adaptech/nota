@@ -5,6 +5,5 @@ export default class VoterRegistered {
     this.firstname = firstname;
     this.lastname = lastname; 
     this.address = address; 
-    // TODO: this.email from OAUTH2. 
   }
 };

@@ -1,4 +1,3 @@
-
 export default class ElectionAdminCreated {
   constructor(electionAdminId, firstname, lastname, address) {
     this.electionAdminId = electionAdminId; 

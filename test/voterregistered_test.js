@@ -1,5 +1,4 @@
 /* eslint-env mocha */
- // import Voter from '../src/domain/Voter';
  import Voter from '../src/domain/Voter';
  import RegisterVoter from '../src/commands/RegisterVoter';
  import VoterRegistered from '../src/events/VoterRegistered';

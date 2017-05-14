@@ -1,6 +1,5 @@
 /* eslint-env mocha */
  import ElectionAdmin from '../src/domain/ElectionAdmin';
- import errors from '../src/domain/Errors';
  import CreateElectionAdmin from '../src/commands/CreateElectionAdmin';
  import ElectionAdminCreated from '../src/events/ElectionAdminCreated';
  import PostalAddress from '../src/domain/PostalAddress';

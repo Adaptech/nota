@@ -3,6 +3,6 @@ export default class CreateElectionAdmin {
     this.electionAdminId = electionAdminId; // mandatory
     this.firstname = firstname; //mandatory
     this.lastname = lastname; //mandatory
-    this.address = address; // mandatory. MUST contain zip code.
+    this.address = address; // mandatory.
   }
 };

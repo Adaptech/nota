@@ -1,8 +1,6 @@
 import CreateOrganization from '../commands/CreateOrganization';
 import OrganizationCreated from '../events/OrganizationCreated';
 import ElectionAdminAppointed from '../events/ElectionAdminAppointed';
-import CastVote from "../commands/CastVote"
-import VoteCast from "../events/VoteCast"
 
 import errors from '../domain/Errors';
 

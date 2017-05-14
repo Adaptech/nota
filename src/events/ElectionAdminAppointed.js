@@ -1,4 +1,3 @@
-
 export default class ElectionAdminAppointed {
   constructor(organizationId, electionAdminId) {
     this.organizationId = organizationId; // mandatory

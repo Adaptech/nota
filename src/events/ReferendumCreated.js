@@ -1,4 +1,3 @@
-
 export default class ReferendumCreated {
   constructor(referendumId, organizationId, name, proposal, options) {
     this.referendumId = referendumId; // mandatory
