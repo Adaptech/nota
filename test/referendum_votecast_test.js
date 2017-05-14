@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import Referendum from '../src/domain/Referendum';
 import ReferendumCreated from '../src/events/ReferendumCreated';
 import VoteCast from "../src/events/VoteCast";
