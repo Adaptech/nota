@@ -1,5 +1,6 @@
 import CreateReferendum from '../commands/CreateReferendum';
 import ReferendumCreated from '../events/ReferendumCreated';
+import AuthenticateVoter from "../commands/AuthenticateVoter"
 import CastVote from "../commands/CastVote"
 import VoteCast from "../events/VoteCast"
 
@@ -33,6 +34,9 @@ export default class Referendum {
   execute(command) {
     if (command instanceof CreateReferendum) {
       return this._CreateReferendum(command);
+    }
+    if (command instanceof AuthenticateVoter) {
+      return this._AuthenticateVoter(command);
     }
     if(command instanceof CastVote){
       return this._CastVote(command)
@@ -70,6 +74,29 @@ export default class Referendum {
 
     var result = [];
     result.push(new ReferendumCreated(command.referendumId, command.organizationId, command.name, command.proposal, command.options));
+    return result;
+  }
+
+  _AuthenticateVoter(command) {
+    var validationErrors = [];
+    if(!command.referendumId) {
+      validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
+    }
+    if(!command.organizationId) {
+      validationErrors.push({"field": "organizationId", "msg": "Organization id is a required field."});
+    }
+    if(!command.voterId) {
+      validationErrors.push({"field": "voterId", "msg": "Voter id is a required field."});
+    }
+    if(command.voterList.indexOf(command.voterId) === -1) {
+      validationErrors.push({"field": "voterId", "msg": "Voter is not on voter list"});
+    }
+    if(validationErrors.length > 0) {
+      throw new errors.ValidationFailed(validationErrors);
+    }  
+
+    var result = [];
+    // result.push(new ReferendumCreated(command.referendumId, command.organizationId, command.name, command.proposal, command.options));
     return result;
   }
 

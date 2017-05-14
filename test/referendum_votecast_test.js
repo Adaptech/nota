@@ -5,7 +5,7 @@ import VoteCast from "../src/events/VoteCast";
 import CastVote from "../src/commands/CastVote"
 import assert from 'assert';
 
-describe('VoteCast', function() {
+describe('referendum - cast vote', function() {
   describe('Given an existing Referendum', function () {
     var referendum = new Referendum();
     var options = ["Remain a member of European Union", "Leave the European Union"];
