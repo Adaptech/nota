@@ -10,6 +10,7 @@ export function reducer(referendumList, eventData) {
       if(referendumRecordIndex === -1) {
         referendumList.push({
           referendumId: event.referendumId,
+          organizationId: event.organizationId,
           name: event.name,
           proposal: event.proposal,
           options: event.options, 
