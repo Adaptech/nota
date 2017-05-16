@@ -1,0 +1,41 @@
+version: "3"
+services:
+  web:
+    image: nota/web:development
+    build:
+      context: ../web
+      dockerfile: Dockerfile.development
+    ports:
+      - "3000:3000"
+      - "5858:5858"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - API_URL=http://localhost:3001/api/v1
+    volumes:
+        - ../web:/home/node/app
+
+  api:
+    image: nota/api:development
+    build:
+      context: ../api
+      dockerfile: Dockerfile.development
+    ports:
+      - "3001:3001"
+      - "5859:5858"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - EVENTSTORE_SERVICE_URL=http://admin:changeit@eventstore:1113
+    volumes:
+        - ../api:/home/node/app
+    depends_on:
+      - eventstore
+    links:
+      - eventstore
+
+  eventstore:
+    image: eventstore/eventstore:latest
+    ports:
+      - "1113:1113"
+      - "2113:2113"
