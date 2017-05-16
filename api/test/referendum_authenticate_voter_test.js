@@ -15,7 +15,7 @@ describe('referendum - authenticate voter', function() {
     describe('and that Jim is on the voter list, when he tries to authenticate', function() {
       let voterListWithJimInIt = ["Jim"];
       let result = referendum.execute(new AuthenticateVoter(referendumId, organizationId, "Jim", voterListWithJimInIt));
-      it.only('then he is authenticated.', function() {
+      it('then he is authenticated.', function() {
         assert.ok(result[0] instanceof VoterAuthenticated);
         assert.ok(result.length == 1)
       })
@@ -33,7 +33,7 @@ describe('referendum - prevent voters from voting more than once', function() {
     describe('and that Jim has already voted', function() {
       referendum.hydrate(new VoterAuthenticated(referendumId, organizationId, "Jim"));
       let voterListWithJimInIt = ["Jim"];
-      it.only('when Jim tries to vote again then he isn\'t permitted to do so.', function(){
+      it('when Jim tries to vote again then he isn\'t permitted to do so.', function(){
         assert.throws(
           () => {
             referendum.execute(new AuthenticateVoter(referendumId, organizationId, "Jim", voterListWithJimInIt));
@@ -60,7 +60,7 @@ describe('referendum - authenticate voter who isn\'t on the voters list', functi
     describe('and that Jim isn\'t on the voter list, when he tries to authenticate', function() {
       let emptyVoterList = [];
       referendum.hydrate(new ReferendumCreated(referendumId, organizationId, "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
-      it.only('then he should not be authenticated', function() {
+      it('then he should not be authenticated', function() {
         assert.throws(
           () => {
             referendum.execute(new AuthenticateVoter(referendumId, organizationId, voterId, emptyVoterList));
@@ -81,7 +81,7 @@ describe('referendum - authenticate with missing API parameters', function() {
   describe('Given a referendum Jim wants to vote in', function() {
     let referendum = new Referendum();
     describe('when the referendum id is missing', function() {
-      it.only('then authenticating the voter won\'t work', function() {
+      it('then authenticating the voter won\'t work', function() {
         assert.throws(
           () => {
             referendum.execute(new AuthenticateVoter(null, "org-1", "voter-3", []));
@@ -98,7 +98,7 @@ describe('referendum - authenticate with missing API parameters', function() {
     }
     )
     describe('when the organization id is missing', function() {
-      it.only('then authenticating the voter won\'t work', function() {
+      it('then authenticating the voter won\'t work', function() {
         assert.throws(
           () => {
             referendum.execute(new AuthenticateVoter("referendum-on-something", "", "voter-3", []));
@@ -115,7 +115,7 @@ describe('referendum - authenticate with missing API parameters', function() {
     }
     )
     describe('when there is no voter', function() {
-      it.only('then authenticating the voter won\'t work', function() {
+      it('then authenticating the voter won\'t work', function() {
         assert.throws(
           () => {
             referendum.execute(new AuthenticateVoter("referendum-on-something", "organized-by-somebody", null, []));

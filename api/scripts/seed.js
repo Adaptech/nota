@@ -3,7 +3,7 @@ import requireDirectory from 'require-directory';
 import map from 'lodash/map';
 import merge from 'lodash/merge';
 
-import Logger from '../src/services/Logger';
+import Logger from '../src/services/logger';
 import initializeServices from './lib/initializeServices';
 
 program

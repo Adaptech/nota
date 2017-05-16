@@ -21,7 +21,7 @@ This is the result of the event storming we did for this:
 
 ## Getting Started
 
-### Eventstore: Install & run on localhost
+### Installing & running the event store
 
 See https://geteventstore.com/downloads/ .
 - unzip at ~/
@@ -32,7 +32,7 @@ if running in a Vagrant box
 - For the admin UI, go to ```http://localhost:2113```
 - login: admin pass: changeit (defaults)
 
-### API: Install & run on localhost
+### Installing & running the API
 
 #### Change to api directory
 
@@ -73,7 +73,7 @@ They will only pass if the eventstore is empty. To delete all eventstore data, d
 
 The collection has examples of API calls.
 
-### Web App: Install & run on localhost
+### Installing & running the web app
 
 #### Change to web directory
 
