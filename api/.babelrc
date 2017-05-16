@@ -1,0 +1,12 @@
+{
+  "presets": ["es2015"],
+  "plugins": [
+    "transform-es2015-modules-commonjs",
+    "transform-object-rest-spread",
+    "syntax-async-functions",
+    "transform-async-to-generator"
+  ],
+  "sourceMaps": true,
+  "retainLines": false,
+  "ignore": "**/TODO_*.js"
+}

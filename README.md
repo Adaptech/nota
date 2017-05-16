@@ -21,7 +21,7 @@ This is the result of the event storming we did for this:
 
 ## Getting Started
 
-### Install & run Eventstore on localhost
+### Installing & running the event store
 
 See https://geteventstore.com/downloads/ .
 - unzip at ~/
@@ -32,32 +32,61 @@ if running in a Vagrant box
 - For the admin UI, go to ```http://localhost:2113```
 - login: admin pass: changeit (defaults)
 
-### Install modules
+### Installing & running the API
+
+#### Change to api directory
+
+```cd api```
+
+#### Install modules
 
 ```npm install```
 
-### Run the unit tests
-
-```npm test```
-
-### Run the API integration tests
-
-They will only pass if the eventstore is empty. To delete all eventstore data, delete all files in /eventstore/install/location/data
-
-1. Install the Postman command line tool: ```sudo npm install -g newman```
-2. Find the eventstore data folder and delete everything in it; the tests won't pass if there are results from a previous run.
-3. Start eventstore
-4. Start API: ```npm start```.
-5. Run the tests: ```npm run test-api```
-
-### Start API
+#### Run the API
 
 ```npm start```
 
-## Exploring the API
+#### Seed the API
+
+```npm run seed```
+
+#### Run the unit tests
+
+```npm test```
+
+#### Run the API integration tests
+
+They will only pass if the eventstore is empty. To delete all eventstore data, delete all files in /eventstore/install/location/data
+
+#### Postman by CLI
+
+1. Find the eventstore data folder and delete everything in it; the tests won't pass if there are results from a previous run.
+2. Start eventstore
+3. Start API: ```npm start```.
+4. Run the tests: ```npm run test-api```
+
+#### Postman by Tool
 
 1. Install https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop
 2. In Postman, import the ```localhost.postman_environment.json``` environment. (Top right in Postman: "Cogwheel-thingy" -> "Manage Environments" -> "Import")
 3. Import the collection ```noneoftheabove.postman_collection.json```. (Top left in Postman: "Import" button.)
 
 The collection has examples of API calls.
+
+### Installing & running the web app
+
+#### Change to web directory
+
+```cd web```
+
+#### Install modules
+
+```npm install```
+
+#### Run the web application
+
+```npm start```
+
+#### View the web application
+
+Open `localhost:3000`
