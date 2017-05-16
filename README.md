@@ -56,19 +56,15 @@ if running in a Vagrant box
 
 #### Run the API integration tests
 
-They will only pass if the eventstore is empty. To delete all eventstore data, delete all files in /eventstore/install/location/data
-
-#### Postman by CLI
-
 1. Find the eventstore data folder and delete everything in it; the tests won't pass if there are results from a previous run.
 2. Start eventstore
 3. Start API: ```npm start```.
 4. Run the tests: ```npm run test-api```
 
-#### Postman by Tool
+#### Exploring the API
 
 1. Install https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop
-2. In Postman, import the ```localhost.postman_environment.json``` environment. (Top right in Postman: "Cogwheel-thingy" -> "Manage Environments" -> "Import")
+2. In Postman, import the ```noneoftheabove-localhost.postman_environment.json``` environment. (Top right in Postman: "Cogwheel-thingy" -> "Manage Environments" -> "Import")
 3. Import the collection ```noneoftheabove.postman_collection.json```. (Top left in Postman: "Import" button.)
 
 The collection has examples of API calls.
