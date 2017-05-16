@@ -3,14 +3,8 @@
 # dependencies
 node_modules
 
-# testing
-coverage
-jest
-jest\haste-map*
-jest\perf-cache*
-
 # production
-build
+dist
 
 # misc
 .DS_Store

@@ -1,0 +1,16 @@
+{
+  "presets": ["es2015", "react"],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    "transform-es2015-modules-commonjs",
+    "transform-object-rest-spread",
+    "syntax-async-functions",
+    "transform-async-to-generator",
+    "transform-runtime",
+    "styled-jsx/babel"
+  ],
+  "sourceMaps": true,
+  "retainLines": false,
+  "ignore": "**/TODO_*.js"
+}
