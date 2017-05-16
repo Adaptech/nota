@@ -10,6 +10,7 @@ const cors = require('cors');
 const jsonParser = require('body-parser').json;
 const glob = require('glob');
 const onResponse = require('on-response');
+const urlParse = require('url').parse;
 const esClient = require('eventstore-node');
 
 const commandHandlerFactory = require('./services/commandHandler');
@@ -58,11 +59,6 @@ function wireUp(config, esConnection) {
     };
     registerControllers(services);
     new ReadModelGenericController(app, readRepository, Logger);
-
-    app.use(function (err, req, res) {
-        Logger.error(err.stack);
-        res.status(500).send({message: err.message, code: err.code || 'unknown'});
-    });
 
     function listening() {
         Logger.info('App ready and listening on port', config.httpPort);
@@ -114,7 +110,13 @@ function registerEvents(logger) {
 }
 
 const config = require('../config/' + configName + '.json');
-const esConnection = esClient.createConnection({log: Logger}, config.esEndPoint);
+
+// allow for external configuration
+if (process.env.PORT) config.httpPort = +process.env.PORT;
+if (process.env.EVENTSTORE_SERVICE_URL) config.esEndPoint = process.env.EVENTSTORE_SERVICE_URL;
+const parsedUrl = urlParse(config.esEndPoint);
+
+const esConnection = esClient.createConnection({log: Logger}, { host: parsedUrl.hostname, port: parsedUrl.port });
 esConnection.connect();
 esConnection.once('connected', (tcpEndPoint) => {
     Logger.info('Connected to GES at', tcpEndPoint);
