@@ -25,27 +25,22 @@ export default class ReferendumController {
 
     function AuthenticateVoterHandler(req, res) {
       var params = req.body;
-      readRepository.findWhere('voterlist', {voterId: params.voterId})
-            .then(referendum => {
-              return Promise.all([
-                readRepository.findAll('referendum', {referendumId: params.referendumId, organizationId: params.organizationId }),
-              ]);
-            })
-            .then(([voterlist, referendum]) => {
-              const command = new AuthenticateVoter(referendum.referendumId, referendum.organizationId, params.voterId, voterlist);
-              var referendumInstance = new Referendum();
-              return Promise.all([
-                Promise.resolve({
-                  voterlist, referendum
-                }), commandHandler(command.referendumId, referendumInstance, command)
-              ])
-            })
-            .then(result => {
-              res.status(202).json(result[0]);
-            })
-            .catch(err => {
-              handleError(logger, err, res);
-            })
+
+      Promise.all([
+          readRepository.findWhere('voterlist', {voterId: params.voterId, organizationId: params.organizationId }),
+          console.log("After calling readRepository.findWhere(voterlist")
+        ])
+        .then(([voterlist ]) => {
+          const command = new AuthenticateVoter(params.referendumId, params.organizationId, params.voterId, voterlist);
+          var referendumInstance = new Referendum();
+          return commandHandler(command.referendumId, referendumInstance, command);
+        })
+        .then(() => {
+          res.status(202).json(params);
+        })
+        .catch(err => {
+          handleError(logger, err, res);
+        });
     }
     app.post('/api/v1/organization/referendum/voter/authenticate', AuthenticateVoterHandler);
    }

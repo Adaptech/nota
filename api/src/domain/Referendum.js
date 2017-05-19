@@ -20,9 +20,9 @@ export default class Referendum {
     if (evt instanceof VoterAuthenticated) {
       this._onVoterAuthenticated(evt);
     }
-    if (evt instanceof VoteCast) {
-      this._onVoteCast(evt);
-    }
+    // if (evt instanceof VoteCast) {
+    //   this._onVoteCast(evt);
+    // }
   }
 
   _onReferendumCreated(evt) {
@@ -34,9 +34,9 @@ export default class Referendum {
     this._votersWhoHaveAlreadyVoted.push(evt.voterId);
   }
 
-  _onVoteCast(evt){
-    this._votersWhoHaveAlreadyVoted[evt.voterId] = true;
-  }
+  // _onVoteCast(evt){
+    
+  // }
 
   execute(command) {
     if (command instanceof CreateReferendum) {
@@ -95,7 +95,8 @@ export default class Referendum {
     if(!command.voterId) {
       validationErrors.push({"field": "voterId", "msg": "Voter id is a required field."});
     }
-    if(command.voterList.indexOf(command.voterId) === -1) {
+    var voter = command.voterList.find(function (v) { return v.voterId === command.voterId; });
+    if(voter === undefined ) {
       validationErrors.push({"field": "voterId", "msg": "Voter is not on voter list"});
     }
     if(this._votersWhoHaveAlreadyVoted.indexOf(command.voterId) != -1) {

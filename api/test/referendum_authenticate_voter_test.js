@@ -13,7 +13,20 @@ describe('referendum - authenticate voter', function() {
     let organizationId = "org-1";
     referendum.hydrate(new ReferendumCreated(referendumId, organizationId, "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
     describe('and that Jim is on the voter list, when he tries to authenticate', function() {
-      let voterListWithJimInIt = ["Jim"];
+      let voterListWithJimInIt = [  {
+            "voterId": "Jim",
+            "organizationId": "org-1",
+            "firstname": "Jim",
+            "lastname": "Miller",
+            "address": {
+              "streetAddress": "405 E. Main",
+              "postOfficeBoxNumber": null,
+              "addressLocality": "Agassiz",
+              "addressRegion": "WA",
+              "postalCode": "98605",
+              "addressCountry": "US"
+            }
+          }];
       let result = referendum.execute(new AuthenticateVoter(referendumId, organizationId, "Jim", voterListWithJimInIt));
       it('then he is authenticated.', function() {
         assert.ok(result[0] instanceof VoterAuthenticated);
