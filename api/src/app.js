@@ -13,12 +13,12 @@ const onResponse = require('on-response');
 const urlParse = require('url').parse;
 const esClient = require('eventstore-node');
 
-const commandHandlerFactory = require('./services/commandHandler');
-const ReadRepository = require('./services/ReadRepository');
-const ReadModelGenericController = require('./services/ReadModelGenericController');
+const commandHandlerFactory = require('./infra/commandHandler');
+const ReadRepository = require('./infra/ReadRepository');
+const ReadModelGenericController = require('./infra/ReadModelGenericController');
 
 const newInject = require('./utils').newInject;
-const Logger = require('./services/logger');
+const Logger = require('./infra/Logger');
 
 function wireUp(config, esConnection) {
     const app = express();
