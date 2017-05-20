@@ -33,7 +33,7 @@ export default class Voter {
       validationErrors.push({"field": "voterId", "msg": "Voter id is a required field."});
     }
     if(!command.organizationId) {
-      validationErrors.push({"field": "organizationId", "msg": "Organization id is a required field."});
+      validationErrors.push({"field": "organizationId", "msg": "Organization does not exist."});
     }
     if(!command.firstname) {
       validationErrors.push({"field": "firstname", "msg": "Voter firstname is a required field."});

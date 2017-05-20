@@ -1,5 +1,6 @@
 import Referendum from '../domain/Referendum';
 import CreateReferendum from '../commands/CreateReferendum';
+import OpenPolls from '../commands/OpenPolls';
 import AuthenticateVoter from '../commands/AuthenticateVoter';
 
 export default class ReferendumController {
@@ -13,12 +14,7 @@ export default class ReferendumController {
             res.status(202).json(command);
           })
           .catch(err => {
-            if(err.name == "ValidationFailed") {
-              res.status(400).json({message: err.message});
-            } else {
-              logger.error(err.stack);
-              res.status(500).json({message: err.message});
-            }
+            handleError(logger, err, res);
           });
     }
     app.post('/api/v1/organization/referendum/create', CreateReferendumHandler);
@@ -28,7 +24,6 @@ export default class ReferendumController {
 
       Promise.all([
           readRepository.findWhere('voterlist', {voterId: params.voterId, organizationId: params.organizationId }),
-          console.log("After calling readRepository.findWhere(voterlist")
         ])
         .then(([voterlist ]) => {
           const command = new AuthenticateVoter(params.referendumId, params.organizationId, params.voterId, voterlist);
@@ -43,6 +38,19 @@ export default class ReferendumController {
         });
     }
     app.post('/api/v1/organization/referendum/voter/authenticate', AuthenticateVoterHandler);
+
+    function OpenPollsHandler(req, res) {
+      var params = req.body;
+        const command = new OpenPolls(params.referendumId);
+        commandHandler(command.referendumId, new Referendum(), command)
+        .then(() => {
+          res.status(202).json(params);
+        })
+        .catch(err => {
+          handleError(logger, err, res);
+        });
+    }
+    app.post('/api/v1/organization/referendum/polls/open', OpenPollsHandler);
    }
 }
 

@@ -81,7 +81,7 @@ describe('Given CreateOrganization is called with a blank name', function() {
            organization.execute(new CreateOrganization("",
             "Coquitlam-Maillardville BC Provincial Electoral District", "admin-1"))}, 
         function(err) {
-          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Organization id is a required field.")){
+          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Organization does not exist.")){
             return true;
           }
         },

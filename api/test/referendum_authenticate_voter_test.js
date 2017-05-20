@@ -2,31 +2,34 @@
  import Referendum from '../src/domain/Referendum';
  import AuthenticateVoter from '../src/commands/AuthenticateVoter';
  import ReferendumCreated from '../src/events/ReferendumCreated';
+ import PollsOpened from '../src/events/PollsOpened';
  import VoterAuthenticated from '../src/events/VoterAuthenticated';
  import assert from 'assert';
 
+var voterListWithJimInIt = [  {
+      "voterId": "Jim",
+      "organizationId": "org-1",
+      "firstname": "Jim",
+      "lastname": "Miller",
+      "address": {
+        "streetAddress": "405 E. Main",
+        "postOfficeBoxNumber": null,
+        "addressLocality": "Agassiz",
+        "addressRegion": "WA",
+        "postalCode": "98605",
+        "addressCountry": "US"
+      }
+    }];
+
 describe('referendum - authenticate voter', function() {
-  describe('Given a referendum Jim wants to vote in', function() {
+  describe('Given a referendum Jim wants to vote in and that polls are opened', function() {
     let referendum = new Referendum();
     let options = ["Remain a member of European Union", "Leave the European Union"];
     let referendumId = "134";
     let organizationId = "org-1";
     referendum.hydrate(new ReferendumCreated(referendumId, organizationId, "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+    referendum.hydrate(new PollsOpened(referendumId));    
     describe('and that Jim is on the voter list, when he tries to authenticate', function() {
-      let voterListWithJimInIt = [  {
-            "voterId": "Jim",
-            "organizationId": "org-1",
-            "firstname": "Jim",
-            "lastname": "Miller",
-            "address": {
-              "streetAddress": "405 E. Main",
-              "postOfficeBoxNumber": null,
-              "addressLocality": "Agassiz",
-              "addressRegion": "WA",
-              "postalCode": "98605",
-              "addressCountry": "US"
-            }
-          }];
       let result = referendum.execute(new AuthenticateVoter(referendumId, organizationId, "Jim", voterListWithJimInIt));
       it('then he is authenticated.', function() {
         assert.ok(result[0] instanceof VoterAuthenticated);
@@ -43,9 +46,9 @@ describe('referendum - prevent voters from voting more than once', function() {
     let referendumId = "134";
     let organizationId = "org-1";
     referendum.hydrate(new ReferendumCreated(referendumId, organizationId, "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+    referendum.hydrate(new PollsOpened(referendumId));    
     describe('and that Jim has already voted', function() {
       referendum.hydrate(new VoterAuthenticated(referendumId, organizationId, "Jim"));
-      let voterListWithJimInIt = ["Jim"];
       it('when Jim tries to vote again then he isn\'t permitted to do so.', function(){
         assert.throws(
           () => {
@@ -53,6 +56,31 @@ describe('referendum - prevent voters from voting more than once', function() {
           },
           function(err) {
             if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Voter has already voted") ) {
+              return true;
+            }
+          },
+          'unexpected error'
+        )
+      })
+    })
+  })
+})
+
+describe('referendum - trying to authenticate a voter when polls aren\'t open', function() {
+  describe('Given a referendum Jim wants to vote in', function() {
+    let referendum = new Referendum();
+    let options = ["Remain a member of European Union", "Leave the European Union"];
+    let referendumId = "134";
+    let organizationId = "org-1";
+    referendum.hydrate(new ReferendumCreated(referendumId, organizationId, "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+    describe('and that polls aren\'t open', function() {
+      it('when Jim shouldn\'t be able to authenticate.', function(){
+        assert.throws(
+          () => {
+            referendum.execute(new AuthenticateVoter(referendumId, organizationId, "Jim", voterListWithJimInIt));
+          },
+          function(err) {
+            if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Polls are not open.") ) {
               return true;
             }
           },
@@ -73,6 +101,7 @@ describe('referendum - authenticate voter who isn\'t on the voters list', functi
     describe('and that Jim isn\'t on the voter list, when he tries to authenticate', function() {
       let emptyVoterList = [];
       referendum.hydrate(new ReferendumCreated(referendumId, organizationId, "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+      referendum.hydrate(new PollsOpened(referendumId));    
       it('then he should not be authenticated', function() {
         assert.throws(
           () => {
@@ -117,7 +146,7 @@ describe('referendum - authenticate with missing API parameters', function() {
             referendum.execute(new AuthenticateVoter("referendum-on-something", "", "voter-3", []));
           },
           function(err) {
-            if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Organization id is a required field.")
+            if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Organization does not exist.")
              ) {
               return true;
             }

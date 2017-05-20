@@ -33,7 +33,7 @@ export default class Organization {
       validationErrors.push({"field": "", "msg": "Organization already exists."})
     }
     if(!command.organizationId) {
-      validationErrors.push({"field": "organizationId", "msg": "Organization id is a required field."});
+      validationErrors.push({"field": "organizationId", "msg": "Organization does not exist."});
     }
     if(!command.electionAdminId) {
       validationErrors.push({"field": "electionAdminId", "msg": "Organization admin id is a required field."});

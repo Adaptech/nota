@@ -1,7 +1,9 @@
 import CreateReferendum from '../commands/CreateReferendum';
 import AuthenticateVoter from "../commands/AuthenticateVoter"
+import OpenPolls from "../commands/OpenPolls"
 import CastVote from "../commands/CastVote"
 import ReferendumCreated from '../events/ReferendumCreated';
+import PollsOpened from '../events/PollsOpened';
 import VoterAuthenticated from "../events/VoterAuthenticated"
 import VoteCast from "../events/VoteCast"
 import errors from '../domain/Errors';
@@ -9,13 +11,17 @@ import errors from '../domain/Errors';
 export default class Referendum {
   constructor() {
     this._id = null;
-    this._options = []
-    this._votersWhoHaveAlreadyVoted = []
+    this._options = [];
+    this._status = "created";
+    this._votersWhoHaveAlreadyVoted = [];
   }
 
   hydrate(evt) {
     if (evt instanceof ReferendumCreated) {
       this._onReferendumCreated(evt);
+    }
+    if (evt instanceof PollsOpened) {
+      this._onPollsOpened();
     }
     if (evt instanceof VoterAuthenticated) {
       this._onVoterAuthenticated(evt);
@@ -30,6 +36,10 @@ export default class Referendum {
     this._options = evt.options
   }
 
+  _onPollsOpened() {
+    this._status = "polls_open";
+  }
+
   _onVoterAuthenticated(evt) {
     this._votersWhoHaveAlreadyVoted.push(evt.voterId);
   }
@@ -41,6 +51,9 @@ export default class Referendum {
   execute(command) {
     if (command instanceof CreateReferendum) {
       return this._CreateReferendum(command);
+    }
+    if (command instanceof OpenPolls) {
+      return this._OpenPolls(command);
     }
     if (command instanceof AuthenticateVoter) {
       return this._AuthenticateVoter(command);
@@ -60,7 +73,7 @@ export default class Referendum {
       validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
     }
     if(!command.organizationId) {
-      validationErrors.push({"field": "organizationId", "msg": "Organization id is a required field."});
+      validationErrors.push({"field": "organizationId", "msg": "Organization does not exist."});
     }
     if(!command.proposal) {
       validationErrors.push({"field": "proposal", "msg": "Referendum proposal is a required field."});
@@ -84,14 +97,38 @@ export default class Referendum {
     return result;
   }
 
+  _OpenPolls(command) {
+    var validationErrors = [];
+    if(!this._id) {
+      validationErrors.push({"field": "", "msg": "Referendum does not exist."})
+    }    
+    if(!command.referendumId) {
+      validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
+    }
+    if(this._status === "polls_open") {
+      validationErrors.push({"field": "", "msg": "Polls are already open."})      
+    }
+    if(validationErrors.length > 0) {
+      throw new errors.ValidationFailed(validationErrors);
+    }  
+
+    var result = [];
+    result.push(new PollsOpened(command.referendumId));
+    return result;
+      
+  }
+
   _AuthenticateVoter(command) {
     var validationErrors = [];
     if(!command.referendumId) {
       validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
     }
     if(!command.organizationId) {
-      validationErrors.push({"field": "organizationId", "msg": "Organization id is a required field."});
+      validationErrors.push({"field": "organizationId", "msg": "Organization does not exist."});
     }
+    if(this._status != "polls_open") {
+      validationErrors.push({"field": "", "msg": "Polls are not open."})      
+    }    
     if(!command.voterId) {
       validationErrors.push({"field": "voterId", "msg": "Voter id is a required field."});
     }
