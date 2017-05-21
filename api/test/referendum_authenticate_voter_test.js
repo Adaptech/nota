@@ -21,7 +21,7 @@ var voterListWithJimInIt = [  {
       }
     }];
 
-describe('referendum - authenticate voter', function() {
+describe('Holding referendums: Authenticating Voters', function() {
   describe('Given a referendum Jim wants to vote in and that polls are opened', function() {
     let referendum = new Referendum();
     let options = ["Remain a member of European Union", "Leave the European Union"];

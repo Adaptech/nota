@@ -5,7 +5,7 @@
  import PostalAddress from '../src/domain/PostalAddress';
  import assert from 'assert';
 
-describe('electionadmins', function() {
+describe('Administering Elections', function() {
   describe('Given a electionAdmin doesn\'t exist yet, when CreateElectionAdmin is called', function() {
      var electionAdmin = new ElectionAdmin();
      var address = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "WA", "94043", "addressCountry")

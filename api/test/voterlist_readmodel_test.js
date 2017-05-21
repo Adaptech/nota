@@ -4,7 +4,7 @@
  import VoterRegistered from '../src/events/VoterRegistered';
  import assert from 'assert';
 
-describe('voterlist', function() {
+describe('Voter Lists', function() {
   describe('Given that a voter registered', function() {
     let voterId = "voter-1";
     let organizationId = "org-1";

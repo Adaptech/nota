@@ -5,7 +5,7 @@ import PollsOpened from '../src/events/PollsOpened';
 import OpenPolls from "../src/commands/OpenPolls"
 import assert from 'assert';
 
-describe('referendum - open polls', function() {
+describe('Holding Referendums: Opening the polls', function() {
   describe('Given an existing Referendum', function () {
     let referendum = new Referendum();
     var options = ["Remain a member of European Union", "Leave the European Union"];

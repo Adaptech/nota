@@ -5,7 +5,7 @@
  import ElectionAdminAppointed from '../src/events/ElectionAdminAppointed';
  import assert from 'assert';
 
-describe('organizations', function() {
+describe('Creating Organizations', function() {
   describe('Given a Organization doesn\'t exist yet, when CreateOrganization is called', function() {
      var organization = new Organization();
      var result = organization.execute(new CreateOrganization("134","Coquitlam-Maillardville BC Provincial Electoral District", "admin-1"));

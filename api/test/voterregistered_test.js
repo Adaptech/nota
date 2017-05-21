@@ -5,7 +5,7 @@
  import PostalAddress from '../src/domain/PostalAddress';
  import assert from 'assert';
 
-describe('voterregistrations', function() {
+describe('Registering Voters', function() {
   describe('Given a voter isn\'t registered yet, when RegisterVoter is called', function() {
      var voter = new Voter();
      var address = new PostalAddress("streetAddress", "postOfficeBoxNumber", "addressLocality", "WA", "94043", "addressCountry")

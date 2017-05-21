@@ -1,12 +1,13 @@
 /* eslint-env mocha */
 import Referendum from '../src/domain/Referendum';
 import ReferendumCreated from '../src/events/ReferendumCreated';
+import PollsOpened from '../src/events/PollsOpened';
 import VoteCast from "../src/events/VoteCast";
 import CastVote from "../src/commands/CastVote"
 import assert from 'assert';
 
-describe('referendum - cast vote', function() {
-  describe('Given an existing Referendum', function () {
+describe('Holding Referendums: Casting Votes', function() {
+  describe('Given a referendum about European Union membership and that polls are open', function () {
     var referendum = new Referendum();
     var options = ["Remain a member of European Union", "Leave the European Union"];
     let referendumId = "134"
@@ -14,28 +15,28 @@ describe('referendum - cast vote', function() {
     let vote = "Remain a member of European Union";
 
     referendum.hydrate(new ReferendumCreated("134", "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+    referendum.hydrate(new PollsOpened("134"));
 
-    describe('When CastVote is called', function () {
+    describe("When voting to remain in the European Union", function () {
       let result = referendum.execute(new CastVote(referendumId, voterId, vote));
 
-      it('Should publish a VoteCast event', function () {
+      it('then the vote should be recorded', function () {
         assert.ok(result[0] instanceof VoteCast)
       })
-      it('it should have the referendum id', function () {
+      it('and the vote should be about European Union Membership', function () {
         assert.equal(result[0].referendumId, referendumId);
       });
-      it('it should have the vote', function () {
+      it('and the option chosen should be to remain in the European Union', function () {
         assert.equal(result[0].vote, vote);
       });
 
     })
 
-
-    describe('When CastVote is called with a missing referendumId', function () {
+    describe("When trying to vote in a referendum that doesn't exist", function () {
 
       referendum.hydrate(new ReferendumCreated(referendumId, "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
 
-      it('The change should be rejected', function () {
+      it('should not be possible', function () {
         assert.throws(
           () => {
             referendum.execute(new CastVote("", voterId, vote));
@@ -50,8 +51,8 @@ describe('referendum - cast vote', function() {
       })
     })
 
-    describe('When CastVote is called with a missing vote', function () {
-      it('The change should be rejected', function () {
+    describe('When trying to cast a vote without selecting an option', function () {
+      it('should not be possible', function () {
         assert.throws(
           () => {
             referendum.execute(new CastVote(referendumId, voterId, ""));
@@ -66,9 +67,8 @@ describe('referendum - cast vote', function() {
       })
     })
 
-    describe('When CastVote is called with a vote that isn\'t an option', function () {
-
-      it('The change should be rejected', function () {
+    describe('When trying to cast a vote that isn\'t one of the options', function () {
+      it('should not be possible', function () {
         assert.throws(
           () => {
             referendum.execute(new CastVote(referendumId, voterId, "Cats are the best"));
@@ -83,4 +83,28 @@ describe('referendum - cast vote', function() {
       })
     })
   })
+
+  describe('Given a referendum and that polls are not open', function () {
+    var referendum = new Referendum();
+    var options = ["Remain a member of European Union", "Leave the European Union"];
+    let referendumId = "134"
+    let voterId = "v-456"
+    let vote = "Remain a member of European Union";
+
+    referendum.hydrate(new ReferendumCreated("134", "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+    it('when casting a vote, voting should not be possible', function () {
+      assert.throws(
+        () => {
+          referendum.execute(new CastVote(referendumId, voterId, vote));
+        },
+        function (err) {
+          if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Polls are not open.")) {
+            return true;
+          }
+        },
+        'unexpected error'
+      );
+    })
+  })
+
 });

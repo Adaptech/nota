@@ -4,7 +4,7 @@
  import ReferendumCreated from '../src/events/ReferendumCreated';
  import assert from 'assert';
 
-describe('referendums', function() {
+describe('Creating referendums', function() {
   describe('Given a Referendum doesn\'t exist yet, when CreateReferendum is called', function() {
      var referendum = new Referendum();
      var options = ["Remain a member of European Union", "Leave the European Union"]
