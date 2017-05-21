@@ -156,9 +156,6 @@ export default class Referendum {
     if(this._status != "polls_open") {
       validationErrors.push({"field": "", "msg": "Polls are not open."})      
     }    
-    if(!command.voterId) {
-      validationErrors.push({"field": "voterId", "msg": "Voter id is a required field."});
-    }
     if(!command.vote) {
       validationErrors.push({"field": "vote", "msg": "Vote is a required field."});
     }

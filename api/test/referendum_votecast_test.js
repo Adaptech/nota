@@ -11,14 +11,13 @@ describe('Holding Referendums: Casting Votes', function() {
     var referendum = new Referendum();
     var options = ["Remain a member of European Union", "Leave the European Union"];
     let referendumId = "134"
-    let voterId = "v-456"
     let vote = "Remain a member of European Union";
 
     referendum.hydrate(new ReferendumCreated("134", "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
     referendum.hydrate(new PollsOpened("134"));
 
     describe("When voting to remain in the European Union", function () {
-      let result = referendum.execute(new CastVote(referendumId, voterId, vote));
+      let result = referendum.execute(new CastVote(referendumId, vote));
 
       it('then the vote should be recorded', function () {
         assert.ok(result[0] instanceof VoteCast)
@@ -39,7 +38,7 @@ describe('Holding Referendums: Casting Votes', function() {
       it('should not be possible', function () {
         assert.throws(
           () => {
-            referendum.execute(new CastVote("", voterId, vote));
+            referendum.execute(new CastVote("", vote));
           },
           function (err) {
             if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Referendum id is a required field.")) {
@@ -55,7 +54,7 @@ describe('Holding Referendums: Casting Votes', function() {
       it('should not be possible', function () {
         assert.throws(
           () => {
-            referendum.execute(new CastVote(referendumId, voterId, ""));
+            referendum.execute(new CastVote(referendumId, ""));
           },
           function (err) {
             if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Vote is a required field.")) {
@@ -71,7 +70,7 @@ describe('Holding Referendums: Casting Votes', function() {
       it('should not be possible', function () {
         assert.throws(
           () => {
-            referendum.execute(new CastVote(referendumId, voterId, "Cats are the best"));
+            referendum.execute(new CastVote(referendumId, "Cats are the best"));
           },
           function (err) {
             if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Option does not exist.")) {
@@ -88,14 +87,13 @@ describe('Holding Referendums: Casting Votes', function() {
     var referendum = new Referendum();
     var options = ["Remain a member of European Union", "Leave the European Union"];
     let referendumId = "134"
-    let voterId = "v-456"
     let vote = "Remain a member of European Union";
 
     referendum.hydrate(new ReferendumCreated("134", "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
     it('when casting a vote, voting should not be possible', function () {
       assert.throws(
         () => {
-          referendum.execute(new CastVote(referendumId, voterId, vote));
+          referendum.execute(new CastVote(referendumId, vote));
         },
         function (err) {
           if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Polls are not open.")) {

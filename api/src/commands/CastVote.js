@@ -1,7 +1,6 @@
 export default class CastVote {
-  constructor(referendumId, voterId, vote) {
+  constructor(referendumId, vote) {
     this.referendumId = referendumId;
-    this.voterId = voterId;
     this.vote = vote;
   }
 }
