@@ -1,0 +1,39 @@
+{
+  "id": "03cbf985-66aa-e0ed-c134-dd95d162ae1c",
+  "name": "Postman Globals",
+  "values": [
+    {
+      "key": "electionAdminId",
+      "value": "electionadmin-1",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "voterId",
+      "value": "voter-1",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "organizationId",
+      "value": "org-1",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "referendumId",
+      "value": "referendum-1",
+      "type": "text",
+      "enabled": true
+    },
+    {
+      "key": "referendumId2",
+      "value": "referendum-2",
+      "type": "text",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2017-05-22T18:34:17.322Z",
+  "_postman_exported_using": "Postman/4.10.7"
+}

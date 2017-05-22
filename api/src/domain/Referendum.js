@@ -1,9 +1,11 @@
 import CreateReferendum from '../commands/CreateReferendum';
+import DeleteReferendum from '../commands/DeleteReferendum';
 import AuthenticateVoter from "../commands/AuthenticateVoter"
 import OpenPolls from "../commands/OpenPolls"
 import ClosePolls from "../commands/ClosePolls"
 import CastVote from "../commands/CastVote"
 import ReferendumCreated from '../events/ReferendumCreated';
+import ReferendumDeleted from '../events/ReferendumDeleted';
 import PollsOpened from '../events/PollsOpened';
 import PollsClosed from '../events/PollsClosed';
 import VoterAuthenticated from "../events/VoterAuthenticated"
@@ -63,6 +65,9 @@ export default class Referendum {
     if (command instanceof CreateReferendum) {
       return this._CreateReferendum(command);
     }
+    if (command instanceof DeleteReferendum) {
+      return this._DeleteReferendum(command);
+    }
     if (command instanceof OpenPolls) {
       return this._OpenPolls(command);
     }
@@ -105,9 +110,30 @@ export default class Referendum {
       throw new errors.ValidationFailed(validationErrors);
     }  
     command.options.push("None of the above");
-
     var result = [];
     result.push(new ReferendumCreated(command.referendumId, command.organizationId, command.name, command.proposal, command.options));
+    return result;
+  }
+
+  _DeleteReferendum(command) {
+    var validationErrors = [];
+    if(!this._id) {
+      validationErrors.push({"field": "", "msg": "Referendum doesn't exist."})
+    }
+    if(!command.referendumId) {
+      validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
+    }
+    if(this._status === "polls_open") {
+      validationErrors.push({ "field": "", "msg": "Can't delete. Polls are open."})
+    }
+    if(this._status === "polls_closed") {
+      validationErrors.push({ "field": "", "msg": "Polls are closed. Can't delete a completed referendum."})
+    }
+    if(validationErrors.length > 0) {
+      throw new errors.ValidationFailed(validationErrors);
+    }  
+    var result = [];
+    result.push(new ReferendumDeleted(command.referendumId));
     return result;
   }
 
@@ -125,11 +151,9 @@ export default class Referendum {
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }  
-
     var result = [];
     result.push(new PollsOpened(command.referendumId));
     return result;
-      
   }
 
   _ClosePolls(command) {
@@ -175,7 +199,6 @@ export default class Referendum {
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }  
-
     var result = [];
     result.push(new VoterAuthenticated(command.referendumId, command.organizationId, command.voterId));
     return result;
@@ -204,7 +227,6 @@ export default class Referendum {
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }
-
     var result = [];
     // This is a problem for ensuring votes are secret: VoterHasVoted followed so closely in time by VoteCast allows the two events to be correlated.
     result.push(new VoterHasVoted(command.referendumId, command.voterId));

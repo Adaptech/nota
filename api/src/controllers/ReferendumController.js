@@ -1,5 +1,6 @@
 import Referendum from '../domain/Referendum';
 import CreateReferendum from '../commands/CreateReferendum';
+import DeleteReferendum from '../commands/DeleteReferendum';
 import OpenPolls from '../commands/OpenPolls';
 import ClosePolls from '../commands/ClosePolls';
 import CastVote from '../commands/CastVote';
@@ -79,6 +80,19 @@ export default class ReferendumController {
       });
     }
     app.post('/api/v1/organization/referendum/vote', CastVoteHandler);
+
+    function DeleteReferendumHandler(req, res) {
+      var params = req.body;
+      const command = new DeleteReferendum(params.referendumId);
+      commandHandler(command.referendumId, new Referendum(), command)
+      .then(() => {
+        res.status(202).json(params);
+      })
+      .catch(err => {
+        handleError(logger, err, res);
+      });
+    }
+    app.post('/api/v1/organization/referendum/delete', DeleteReferendumHandler);
    }
 }
 
