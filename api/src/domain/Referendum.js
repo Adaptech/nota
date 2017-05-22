@@ -5,6 +5,7 @@ import CastVote from "../commands/CastVote"
 import ReferendumCreated from '../events/ReferendumCreated';
 import PollsOpened from '../events/PollsOpened';
 import VoterAuthenticated from "../events/VoterAuthenticated"
+import VoterHasVoted from "../events/VoterHasVoted"
 import VoteCast from "../events/VoteCast"
 import errors from '../domain/Errors';
 
@@ -14,6 +15,7 @@ export default class Referendum {
     this._options = [];
     this._status = "created";
     this._authenticatedVoters = [];
+    this._votersWhoHaveVoted = [];
   }
 
   hydrate(evt) {
@@ -26,9 +28,9 @@ export default class Referendum {
     if (evt instanceof VoterAuthenticated) {
       this._onVoterAuthenticated(evt);
     }
-    // if (evt instanceof VoteCast) {
-    //   this._onVoteCast(evt);
-    // }
+    if (evt instanceof VoterHasVoted) {
+      this._onVoterHasVoted(evt);
+    }
   }
 
   _onReferendumCreated(evt) {
@@ -44,9 +46,9 @@ export default class Referendum {
     this._authenticatedVoters.push(evt.voterId);
   }
 
-  // _onVoteCast(evt){
-    
-  // }
+  _onVoterHasVoted(evt){
+    this._votersWhoHaveVoted.push(evt.voterId);
+  }
 
   execute(command) {
     if (command instanceof CreateReferendum) {
@@ -165,11 +167,16 @@ export default class Referendum {
     if(this._authenticatedVoters.indexOf(command.voterId) === -1) {
       validationErrors.push({"field": "voterId", "msg": "Voter is not authenticated."});
     }
+    if(this._votersWhoHaveVoted.indexOf(command.voterId) > -1) {
+      validationErrors.push({"field": "voterId", "msg": "Voter has already voted."});
+    }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }
 
     var result = [];
+    // This is a problem for ensuring votes are secret: VoterHasVoted followed so closely in time by VoteCast allows the two events to be correlated.
+    result.push(new VoterHasVoted(command.referendumId, command.voterId));
     result.push(new VoteCast(command.referendumId, command.vote));
     return result;
   }

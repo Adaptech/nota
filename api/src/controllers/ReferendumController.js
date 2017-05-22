@@ -56,7 +56,6 @@ export default class ReferendumController {
     function CastVoteHandler(req, res) {
       var params = req.body;
       const command = new CastVote(params.referendumId, params.voterId, params.vote);
-      console.log(command)
       commandHandler(command.referendumId, new Referendum(), command)
       .then(() => {
         res.status(202).json(params);

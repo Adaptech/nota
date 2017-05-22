@@ -3,6 +3,7 @@ import Referendum from '../src/domain/Referendum';
 import ReferendumCreated from '../src/events/ReferendumCreated';
 import PollsOpened from '../src/events/PollsOpened';
 import VoterAuthenticated from '../src/events/VoterAuthenticated';
+import VoterHasVoted from '../src/events/VoterHasVoted';
 import VoteCast from "../src/events/VoteCast";
 import CastVote from "../src/commands/CastVote"
 import assert from 'assert';
@@ -20,17 +21,18 @@ describe('Holding Referendums: Casting Votes', function() {
 
     describe("When voting to remain in the European Union", function () {
       let result = referendum.execute(new CastVote(referendumId, "voter-1", vote));
-
+      it('then it should be recorded that the voter has already voted so that s/he can\'t vote more than once.', function () {
+        assert.ok(result[0] instanceof VoterHasVoted)
+      })
       it('then the vote should be recorded', function () {
-        assert.ok(result[0] instanceof VoteCast)
+        assert.ok(result[1] instanceof VoteCast)
       })
       it('and the vote should be about European Union Membership', function () {
-        assert.equal(result[0].referendumId, referendumId);
+        assert.equal(result[1].referendumId, referendumId);
       });
       it('and the option chosen should be to remain in the European Union', function () {
-        assert.equal(result[0].vote, vote);
+        assert.equal(result[1].vote, vote);
       });
-
     })
 
     describe("When trying to vote in a referendum that doesn't exist", function () {
@@ -67,10 +69,6 @@ describe('Holding Referendums: Casting Votes', function() {
 
     describe('When trying to cast a vote that isn\'t one of the options', function () {
       it('should not be possible', function () {
-        let referendum = new Referendum();
-        referendum.hydrate(new ReferendumCreated("134", "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
-        referendum.hydrate(new PollsOpened(referendumId));
-        referendum.hydrate(new VoterAuthenticated(referendumId, "org-1", "voter-1"));
         assert.throws(
           () => {
             referendum.execute(new CastVote(referendumId, "voter-1", "Cats are the best"));
@@ -128,18 +126,20 @@ describe('Holding Referendums: Casting Votes', function() {
     })
   })
 
-  describe('When trying to cast a vote without being an authenticated voter', function () {
+  describe('When trying to vote twice', function () {
     it('should not be possible', function () {
       let referendum = new Referendum();
       let options = ["Remain a member of European Union", "Leave the European Union"];
       referendum.hydrate(new ReferendumCreated("134", "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
       referendum.hydrate(new PollsOpened("referendum-1"));
+      referendum.hydrate(new VoterAuthenticated("referendum-1", "org-1", "voter-1"));
+      referendum.hydrate(new VoterHasVoted("referendum-1", "voter-1"));
       assert.throws(
         () => {
           referendum.execute(new CastVote("referendum-1", "voter-1", "Leave the European Union"));
         },
         function (err) {
-          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Voter is not authenticated.")) {
+          if (err.name == "ValidationFailed" && err.message.find(m => m.field && m.msg === "Voter has already voted.")) {
             return true;
           }
         },
@@ -147,5 +147,4 @@ describe('Holding Referendums: Casting Votes', function() {
       );
     })
   })
-
 });
