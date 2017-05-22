@@ -1,6 +1,7 @@
 import Referendum from '../domain/Referendum';
 import CreateReferendum from '../commands/CreateReferendum';
 import OpenPolls from '../commands/OpenPolls';
+import ClosePolls from '../commands/ClosePolls';
 import CastVote from '../commands/CastVote';
 import AuthenticateVoter from '../commands/AuthenticateVoter';
 
@@ -52,6 +53,19 @@ export default class ReferendumController {
       });
     }
     app.post('/api/v1/organization/referendum/polls/open', OpenPollsHandler);
+
+    function ClosePollsHandler(req, res) {
+      var params = req.body;
+      const command = new ClosePolls(params.referendumId);
+      commandHandler(command.referendumId, new Referendum(), command)
+      .then(() => {
+        res.status(202).json(params);
+      })
+      .catch(err => {
+        handleError(logger, err, res);
+      });
+    }
+    app.post('/api/v1/organization/referendum/polls/close', ClosePollsHandler);
 
     function CastVoteHandler(req, res) {
       var params = req.body;

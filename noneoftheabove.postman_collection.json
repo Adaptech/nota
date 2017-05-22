@@ -12,7 +12,8 @@
 		"3b68d6e7-0763-c895-a4cb-226f97e5f970",
 		"1a64121a-7509-599e-76f1-71a66f6f05a8",
 		"93b2609f-7750-922b-54ea-dffc1c78b171",
-		"bad6affe-f27c-ed95-c14f-0c56ff8c9ab0"
+		"bad6affe-f27c-ed95-c14f-0c56ff8c9ab0",
+		"526283bd-172e-b274-a8d5-026a1aaefd44"
 	],
 	"folders": [],
 	"timestamp": 1484874935798,
@@ -78,6 +79,26 @@
 			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",
 			"responses": [],
 			"rawModeData": ""
+		},
+		{
+			"id": "526283bd-172e-b274-a8d5-026a1aaefd44",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{protocol}}://{{server}}/api/v1/organization/referendum/polls/close",
+			"preRequestScript": "postman.setEnvironmentVariable(\"voterId\", \"{{$guid}}\");",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495470988790,
+			"name": "/api/v1/organization/referendum/polls/close",
+			"description": "",
+			"collectionId": "5c30e581-5060-bc27-e472-d3000dc04e3e",
+			"responses": [],
+			"rawModeData": "{\n   \"referendumId\": \"{{referendumId}}\"\n}"
 		},
 		{
 			"id": "93b2609f-7750-922b-54ea-dffc1c78b171",

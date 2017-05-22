@@ -2,6 +2,7 @@
 import Referendum from '../src/domain/Referendum';
 import ReferendumCreated from '../src/events/ReferendumCreated';
 import PollsOpened from '../src/events/PollsOpened';
+import PollsClosed from '../src/events/PollsClosed';
 import VoterAuthenticated from '../src/events/VoterAuthenticated';
 import VoterHasVoted from '../src/events/VoterHasVoted';
 import VoteCast from "../src/events/VoteCast";
@@ -90,7 +91,31 @@ describe('Holding Referendums: Casting Votes', function() {
     let referendumId = "134"
     let vote = "Remain a member of European Union";
 
-    referendum.hydrate(new ReferendumCreated("134", "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+    referendum.hydrate(new ReferendumCreated(referendumId, "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+    it('voting should not be possible', function () {
+      assert.throws(
+        () => {
+          referendum.execute(new CastVote(referendumId, "123", vote));
+        },
+        function (err) {
+          if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Polls are not open.")) {
+            return true;
+          }
+        },
+        'unexpected error'
+      );
+    })
+  })
+
+  describe('When polls are closed', function () {
+    var referendum = new Referendum();
+    var options = ["Remain a member of European Union", "Leave the European Union"];
+    let referendumId = "134"
+    let vote = "Remain a member of European Union";
+
+    referendum.hydrate(new ReferendumCreated(referendumId, "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+    referendum.hydrate(new PollsOpened(referendumId))
+    referendum.hydrate(new PollsClosed(referendumId))
     it('voting should not be possible', function () {
       assert.throws(
         () => {

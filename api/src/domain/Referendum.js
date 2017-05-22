@@ -1,9 +1,11 @@
 import CreateReferendum from '../commands/CreateReferendum';
 import AuthenticateVoter from "../commands/AuthenticateVoter"
 import OpenPolls from "../commands/OpenPolls"
+import ClosePolls from "../commands/ClosePolls"
 import CastVote from "../commands/CastVote"
 import ReferendumCreated from '../events/ReferendumCreated';
 import PollsOpened from '../events/PollsOpened';
+import PollsClosed from '../events/PollsClosed';
 import VoterAuthenticated from "../events/VoterAuthenticated"
 import VoterHasVoted from "../events/VoterHasVoted"
 import VoteCast from "../events/VoteCast"
@@ -25,6 +27,9 @@ export default class Referendum {
     if (evt instanceof PollsOpened) {
       this._onPollsOpened();
     }
+    if (evt instanceof PollsClosed) {
+      this._onPollsClosed();
+    }
     if (evt instanceof VoterAuthenticated) {
       this._onVoterAuthenticated(evt);
     }
@@ -42,6 +47,10 @@ export default class Referendum {
     this._status = "polls_open";
   }
 
+  _onPollsClosed() {
+    this._status = "polls_closed";
+  }
+
   _onVoterAuthenticated(evt) {
     this._authenticatedVoters.push(evt.voterId);
   }
@@ -56,6 +65,9 @@ export default class Referendum {
     }
     if (command instanceof OpenPolls) {
       return this._OpenPolls(command);
+    }
+    if (command instanceof ClosePolls) {
+      return this._ClosePolls(command);
     }
     if (command instanceof AuthenticateVoter) {
       return this._AuthenticateVoter(command);
@@ -118,6 +130,25 @@ export default class Referendum {
     result.push(new PollsOpened(command.referendumId));
     return result;
       
+  }
+
+  _ClosePolls(command) {
+    var validationErrors = [];
+    if(!this._id) {
+      validationErrors.push({"field": "", "msg": "Referendum does not exist."})
+    }    
+    if(!command.referendumId) {
+      validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
+    }
+    if(!(this._status === "polls_open")) {
+      validationErrors.push({"field": "referendumId", "msg": "Polls are not open."})      
+    }
+    if(validationErrors.length > 0) {
+      throw new errors.ValidationFailed(validationErrors);
+    }  
+    var result = [];
+    result.push(new PollsClosed(command.referendumId));
+    return result;
   }
 
   _AuthenticateVoter(command) {
