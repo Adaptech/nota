@@ -13,7 +13,7 @@ export default class Referendum {
     this._id = null;
     this._options = [];
     this._status = "created";
-    this._votersWhoHaveAlreadyVoted = [];
+    this._authenticatedVoters = [];
   }
 
   hydrate(evt) {
@@ -41,7 +41,7 @@ export default class Referendum {
   }
 
   _onVoterAuthenticated(evt) {
-    this._votersWhoHaveAlreadyVoted.push(evt.voterId);
+    this._authenticatedVoters.push(evt.voterId);
   }
 
   // _onVoteCast(evt){
@@ -136,7 +136,7 @@ export default class Referendum {
     if(voter === undefined ) {
       validationErrors.push({"field": "voterId", "msg": "Voter is not on voter list"});
     }
-    if(this._votersWhoHaveAlreadyVoted.indexOf(command.voterId) != -1) {
+    if(this._authenticatedVoters.indexOf(command.voterId) != -1) {
       validationErrors.push({"field": "voterId", "msg": "Voter has already voted"});      
     }
     if(validationErrors.length > 0) {
@@ -161,6 +161,9 @@ export default class Referendum {
     }
     if(!this._options.find((option)=>option === command.vote)){
       validationErrors.push({"field": "vote", "msg": "Option does not exist."});
+    }
+    if(this._authenticatedVoters.indexOf(command.voterId) === -1) {
+      validationErrors.push({"field": "voterId", "msg": "Voter is not authenticated."});
     }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
