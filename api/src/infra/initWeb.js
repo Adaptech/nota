@@ -7,7 +7,6 @@ import glob from "glob";
 import {newInject} from "./utils";
 import fakeAuthentication from "./auth/fakeAuthentication";
 import authentication from "./auth/authentication";
-import authorization from "./auth/authorization";
 
 const ReadModelGenericController = require("./ReadModelGenericController");
 
@@ -53,13 +52,6 @@ function initWeb(services) {
       res.set('Content-Type', 'text/html');
       res.status(200).send(`<!DOCTYPE html><html><head><title>App is healty</title></head></html>`);
   });
-
-  // no oauth proxy exists so fake authentication (for development only)
-  if ((process.env.NODE_ENV !== 'production') && config['x-user']) app.use(fakeAuthentication(config['x-user']));
-
-  // auth
-  authentication(services);
-  authorization(services);
     
   // serve web application
   app.use('/', express.static(path.resolve(__dirname, '../../web/build')));

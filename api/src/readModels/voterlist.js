@@ -1,8 +1,8 @@
-export const filters = {
-  eventType: ['VoterRegistered']
+export const config = {
+  key: 'voterId'
 };
 
-export function reducer(voterList, eventData) {
+export function handler(voterList, eventData) {
   const event = eventData.event;
   switch(eventData.typeId) {
     case 'VoterRegistered':

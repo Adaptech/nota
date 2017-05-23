@@ -1,8 +1,8 @@
-export const filters = {
-  eventType: ['ReferendumCreated']
+export const config = {
+  key: 'referendumId'
 };
 
-export function reducer(referendumList, eventData) {
+export function handler(referendumList, eventData) {
   const event = eventData.event;
   switch(eventData.typeId) {
     case 'ReferendumCreated':

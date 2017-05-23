@@ -59,3 +59,5 @@ Vagrantfile
 
 **/.idea/workspace.xml **/.idea/tasks.xml
 
+**/db
+

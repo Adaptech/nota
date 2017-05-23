@@ -18,7 +18,7 @@ describe('voterlist', function() {
         metadata: null
     };
     let voterList = [];
-    voterList = voterListReadmodel.reducer(voterList, eventData);
+    voterList = voterListReadmodel.handler(voterList, eventData);
     it('the voter should be in the voter list', function() {
       assert.ok(voterList.length === 1)
       assert.equal(voterList[0].voterId, voterId)
@@ -41,9 +41,9 @@ describe('voterlist', function() {
         metadata: null
     };
     let voterList = [];
-    voterList = voterListReadmodel.reducer(voterList, eventData);
+    voterList = voterListReadmodel.handler(voterList, eventData);
     it('the voter should be in the voter list only once when VoterRegistered is received a second time', function() {
-      voterList = voterListReadmodel.reducer(voterList, eventData);
+      voterList = voterListReadmodel.handler(voterList, eventData);
       assert.ok(voterList.length === 1)
       assert.equal(voterList[0].voterId, voterId)
     })
