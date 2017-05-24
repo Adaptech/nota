@@ -21,6 +21,7 @@ describe('voterlist', function() {
     });
 
     it('the voter should be in the voter list', function() {
+      console.log(voterList[0])
       assert.ok(voterList.length === 1)
       assert.equal(voterList[0].voterId, voterId)
       assert.equal(voterList[0].organizationId, organizationId)
