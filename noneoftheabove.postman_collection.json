@@ -15,13 +15,13 @@
 		"aff6567b-a35a-5a9c-c179-b466c188e6e2",
 		"f5e97664-4da6-e4e7-2da3-2dbc37a86d08",
 		"3f098820-c492-873c-2c4e-9eb216309157",
-		"048eda04-3b7a-3c86-66ea-1db28e1afedd"
+		"048eda04-3b7a-3c86-66ea-1db28e1afedd",
+		"d4c15165-69db-04cd-d658-c7eeb4bbca1d"
 	],
 	"folders": [],
 	"timestamp": 1484874935798,
 	"owner": 0,
 	"public": false,
-	"hasRequests": true,
 	"requests": [
 		{
 			"id": "01076336-5790-2bc3-5158-688d2d6c47c9",
@@ -56,12 +56,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1495625306543,
+			"time": 1495703012931,
 			"name": "/api/v1/organization/referendum/delete",
 			"description": "",
 			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
 			"responses": [],
-			"rawModeData": "{\n   \"referendumId\": \"{{referendumId2}}\"\n}"
+			"rawModeData": "{\n   \"referendumId\": \"ref-2\"\n}"
 		},
 		{
 			"id": "32e507a5-502e-88a2-d60b-4d59296af103",
@@ -96,12 +96,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1495477773184,
+			"time": 1495703003145,
 			"name": "/api/v1/organization/referendum/create 2nd",
 			"description": "",
 			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
 			"responses": [],
-			"rawModeData": "{\n   \"referendumId\": \"{{referendumId2}}\",\n   \"organizationId\": \"{{organizationId}}\",\n   \"name\": \"A second referendum\",\n   \"proposal\": \"Who will be the president of the club in 2017?\",\n   \"options\": [\"Joe Miller\",\"A. Higgins\", \"B. Billings\"]\n}"
+			"rawModeData": "{\n   \"referendumId\": \"ref-2\",\n   \"organizationId\": \"org-1\",\n   \"name\": \"A second referendum\",\n   \"proposal\": \"Who will be the president of the club in 2017?\",\n   \"options\": [\"Joe Miller\",\"A. Higgins\", \"B. Billings\"]\n}"
 		},
 		{
 			"id": "59ad16f4-cd6e-a4cf-e34e-efa8fa00eb5e",
@@ -156,12 +156,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1495625259950,
+			"time": 1495702961376,
 			"name": "/api/v1/organization/referendum/voter/authenticate",
 			"description": "",
 			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
 			"responses": [],
-			"rawModeData": "{\n   \"referendumId\": \"{{referendumId}}\",\n   \"voterId\": \"voter-1\",\n   \"organizationId\": \"{{organizationId}}\"\n}"
+			"rawModeData": "{\n   \"referendumId\": \"ref-1\",\n   \"voterId\": \"voter-1\",\n   \"organizationId\": \"org-1\"\n}"
 		},
 		{
 			"id": "90327bf8-674a-69d3-0410-aad103d70981",
@@ -176,12 +176,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1495479558436,
+			"time": 1495702926595,
 			"name": "/api/v1/organization/voter/register",
 			"description": "",
 			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
 			"responses": [],
-			"rawModeData": "{\n   \"voterId\": \"{{voterId}}\",\n   \"organizationId\": \"{{organizationId}}\",\n   \"firstname\": \"John\",\n   \"lastname\": \"Miller\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Main\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Agassiz\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
+			"rawModeData": "{\n   \"voterId\": \"voter-1\",\n   \"organizationId\": \"org-1\",\n   \"firstname\": \"John\",\n   \"lastname\": \"Miller\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Main\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Agassiz\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
 		},
 		{
 			"id": "929db190-7374-1788-4b7e-c472a8eb1667",
@@ -196,12 +196,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1495479583519,
+			"time": 1495702885565,
 			"name": "/api/v1/organization/referendum/create",
 			"description": "",
 			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
 			"responses": [],
-			"rawModeData": "{\n   \"referendumId\": \"{{referendumId}}\",\n   \"organizationId\": \"{{organizationId}}\",\n   \"name\": \"A Test Referendum\",\n   \"proposal\": \"Whom should we vote for?\",\n   \"options\": [\"Lenora Billings\",\"Archibald Lanister\", \"Joe Smith\"]\n}"
+			"rawModeData": "{\n   \"referendumId\": \"ref-1\",\n   \"organizationId\": \"org-1\",\n   \"name\": \"A Test Referendum\",\n   \"proposal\": \"Whom should we vote for?\",\n   \"options\": [\"Lenora Billings\",\"Archibald Lanister\", \"Joe Smith\"]\n}"
 		},
 		{
 			"id": "aff6567b-a35a-5a9c-c179-b466c188e6e2",
@@ -216,12 +216,32 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1495625276306,
+			"time": 1495702972872,
 			"name": "/api/v1/organization/referendum/vote",
 			"description": "",
 			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
 			"responses": [],
-			"rawModeData": "{\n   \"referendumId\": \"{{referendumId}}\",\n   \"voterId\": \"voter-1\",\n   \"vote\": \"Archibald Lanister\"\n}"
+			"rawModeData": "{\n   \"referendumId\": \"ref-1\",\n   \"voterId\": \"voter-1\",\n   \"vote\": \"Archibald Lanister\"\n}"
+		},
+		{
+			"id": "d4c15165-69db-04cd-d658-c7eeb4bbca1d",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{protocol}}://{{server}}/api/v1/r/results",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1495702762524,
+			"name": "/api/v1/r/results",
+			"description": "",
+			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
+			"responses": [],
+			"rawModeData": ""
 		},
 		{
 			"id": "f220547a-797f-d5bb-ff57-e8e5e69a0167",
@@ -236,12 +256,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1494856534365,
+			"time": 1495702834441,
 			"name": "/api/v1/electionadmin/create",
 			"description": "",
 			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
 			"responses": [],
-			"rawModeData": "{\n   \"electionAdminId\": \"{{electionAdminId}}\",\n   \"firstname\": \"Joy\",\n   \"lastname\": \"Murchinson\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Stueben\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Bingen\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
+			"rawModeData": "{\n   \"electionAdminId\": \"admin-1\",\n   \"firstname\": \"Joy\",\n   \"lastname\": \"Murchinson\",\n   \"address\": {\n      \"streetAddress\": \"405 E. Stueben\",\n      \"postOfficeBoxNumber\": null,\n      \"addressLocality\": \"Bingen\",\n      \"addressRegion\": \"WA\",\n      \"postalCode\": \"98605\",\n      \"addressCountry\": \"US\"\n   }\n}"
 		},
 		{
 			"id": "f5e97664-4da6-e4e7-2da3-2dbc37a86d08",
@@ -256,12 +276,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1495470988790,
+			"time": 1495702983596,
 			"name": "/api/v1/organization/referendum/polls/close",
 			"description": "",
 			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
 			"responses": [],
-			"rawModeData": "{\n   \"referendumId\": \"{{referendumId}}\"\n}"
+			"rawModeData": "{\n   \"referendumId\": \"ref-1\"\n}"
 		},
 		{
 			"id": "f9c5603f-4078-2398-7527-bb30812c1ce1",
@@ -276,12 +296,12 @@
 			"tests": "tests[\"Status code is 202 Accepted\"] = responseCode.code === 202;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1495377976600,
+			"time": 1495702944604,
 			"name": "/api/v1/organization/referendum/polls/open",
 			"description": "",
 			"collectionId": "a019e876-c7d4-739f-b326-458593b1838c",
 			"responses": [],
-			"rawModeData": "{\n   \"referendumId\": \"{{referendumId}}\"\n}"
+			"rawModeData": "{\n   \"referendumId\": \"ref-1\"\n}"
 		}
 	]
 }
