@@ -1,6 +1,21 @@
 {
-  "publicHostname": "localhost",
-  "httpPort": 3001,
-  "useHttps": false,
-  "esEndPoint": "tcp://localhost:1113"
+  "logLevel": "debug",
+  "http": {
+    "httpPort": 3001,
+    "useHttps": false,
+    "accessLogFormat": ":date[iso] :remote-addr :method :url HTTP/:http-version :status :res[content-length] - :response-time ms",
+    "staticRoutes": {
+      "/": "./web/build"
+    }
+  },
+  "x-user": "35914",
+  "eventStore": {
+    "type": "ges",
+    "endPoint": "tcp://localhost:1113",
+    "credentials": {"username": "admin", "password": "changeit"}
+  },
+  "readModelStore": "leveldb",
+  "levelDb": {
+    "dbDir": "./db"
+  }
 }
