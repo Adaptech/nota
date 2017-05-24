@@ -6,6 +6,7 @@ export function handler(voterList, eventData) {
   const event = eventData.event;
   switch(eventData.typeId) {
     case 'VoterRegistered':
+      console.log("VoterRegistered")
       voterList.create({
         voterId: event.voterId,
         organizationId: event.organizationId,
