@@ -2,7 +2,7 @@ export const config = {
   key: 'referendumId'
 };
 
-function createOrUpdateOne(referendumResultsRepo, readRepository, event) {
+function createOrUpdateReferendum(referendumResultsRepo, readRepository, event) {
   let referendumId = event.referendumId;
   return readRepository.exists('results', { referendumId })
     .then(exists => {
@@ -32,11 +32,26 @@ function createOrUpdateOne(referendumResultsRepo, readRepository, event) {
   )
 }
 
+function recordVote(referendumResultsRepo, readRepository, event) {
+  let referendumId = event.referendumId;
+  return readRepository.findOne('results', { referendumId })
+    .then(r => {
+      r.results.forEach(result => {
+        if( result.name === event.vote) {
+            console.log("OPTION FOUND")
+            console.log(result.name)
+            result.count = result.count + 1;
+        }
+      })
+    });
+}
+
+
 export function handler(referendumResultsRepo, eventData, readRepository) {
   const event = eventData.event;
   switch (eventData.typeId) {
-    case 'ReferendumCreated': return createOrUpdateOne(referendumResultsRepo, readRepository, event);
-    // case 'VoteCast': return createOrUpdateByOrderId(referendumResultsRepo, readRepository, event.orderId, 'canceled');
+    case 'ReferendumCreated': return createOrUpdateReferendum(referendumResultsRepo, readRepository, event);
+    case 'VoteCast': return recordVote(referendumResultsRepo, readRepository, event);
   }
   return referendumResultsRepo;
 }
