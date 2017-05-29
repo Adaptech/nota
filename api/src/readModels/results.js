@@ -38,22 +38,20 @@ function recordVote(referendumResultsRepo, readRepository, event) {
     .then(r => {
       r.results.forEach(result => {
         if( result.name === event.vote) {
-            console.log("OPTION FOUND")
-            console.log(result.name)
-            result.count = result.count + 1;
+            result.votes = result.votes + 1;
         }
       })
     });
 }
 
 
-export function handler(referendumResultsRepo, eventData, readRepository) {
+export function handler(resultsRepo, eventData, readRepository) {
   const event = eventData.event;
   switch (eventData.typeId) {
-    case 'ReferendumCreated': return createOrUpdateReferendum(referendumResultsRepo, readRepository, event);
-    case 'VoteCast': return recordVote(referendumResultsRepo, readRepository, event);
+    case 'ReferendumCreated': return createOrUpdateReferendum(resultsRepo, readRepository, event);
+    case 'VoteCast': return recordVote(resultsRepo, readRepository, event);
   }
-  return referendumResultsRepo;
+  return resultsRepo;
 }
 
 // export function handler(referendumResults, eventData) {

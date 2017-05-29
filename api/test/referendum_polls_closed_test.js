@@ -4,6 +4,7 @@ import ReferendumCreated from '../src/events/ReferendumCreated';
 import PollsOpened from '../src/events/PollsOpened';
 import PollsClosed from '../src/events/PollsClosed';
 import ClosePolls from "../src/commands/ClosePolls"
+import OpenPolls from "../src/commands/OpenPolls"
 import assert from 'assert';
 
 describe('Holding Referendums: Closing the polls', function() {
@@ -56,6 +57,33 @@ describe('Holding Referendums: Closing the polls', function() {
           },
           function (err) {
             if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Polls are not open.")) {
+              return true;
+            }
+          },
+          'unexpected error'
+        );
+      })
+    })
+  })
+
+  describe('Given an Referendum and that polls have already been closed', function () {
+    let referendum = new Referendum();
+    var options = ["Remain a member of European Union", "Leave the European Union"];
+    let referendumId = "134"
+
+    referendum.hydrate(new ReferendumCreated("134", "org-1", "Referendum on the United Klingon's membership of the European Union", "Should the United Klingon remain a member of the European Union?", options));
+    referendum.hydrate(new PollsOpened(referendumId));
+    referendum.hydrate(new PollsClosed(referendumId));
+
+    describe('When trying to close the polls', function () {
+      it('then this should fail', function () {
+        assert.throws(
+          () => {
+            referendum.execute(new OpenPolls(referendumId));
+          },
+          function (err) {
+            console.log(err)
+            if (err.name == "ValidationFailed" && err.message.find(m => m.msg === "Polls have already been closed.")) {
               return true;
             }
           },

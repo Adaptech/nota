@@ -148,6 +148,9 @@ export default class Referendum {
     if(this._status === "polls_open") {
       validationErrors.push({"field": "", "msg": "Polls are already open."})      
     }
+    if(this._status === "polls_closed") {
+      validationErrors.push({"field": "", "msg": "Polls have already been closed."})      
+    }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
     }  
