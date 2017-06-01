@@ -9,16 +9,6 @@ This is the result of the event storming we did for this:
 
 ![NOTA Minimum Viable Event Storm](nota-eventstorming.jpg)
 
-
-## TODO:
-
-- DONE An election administrator currently has a name. Write the necessary tests to have a first name and last name instead and make them pass.
-- The ElectionAdmin controller needs to be modified to handle first- and lastname instead of name and the Postman API call example needs updating.
-- _Hands-on example for the Thursday Feb. 9 2017 meetup:_ How would you handle versioning and existing data in this scenario?
-- Implement the ReferendumCreated event, a CreateReferendum command and a referendum read model, with tests. What are the properties of the event and the command?
-
-
-
 ## Getting Started
 
 ### Installing & running the event store
@@ -58,14 +48,16 @@ if running in a Vagrant box
 
 1. Find the eventstore data folder and delete everything in it; the tests won't pass if there are results from a previous run.
 2. Start eventstore
-3. Start API: ```npm start```.
-4. Run the tests: ```npm run test-api```
+3. ```cd api```
+4. Delete any existing read model data: ```rm -fr db```
+5. Start API: ```npm start```.
+6. Run the tests: ```npm run test-api```
 
 #### Exploring the API
 
 1. Install https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop
-2. In Postman, import the ```noneoftheabove-localhost.postman_environment.json``` environment. (Top right in Postman: "Cogwheel-thingy" -> "Manage Environments" -> "Import")
-3. Import the collection ```noneoftheabove.postman_collection.json```. (Top left in Postman: "Import" button.)
+2. In Postman, import the ```api/noneoftheabove-localhost.postman_environment.json``` environment. (Top right in Postman: "Cogwheel-thingy" -> "Manage Environments" -> "Import")
+3. Import the collection ```api/noneoftheabove.postman_collection.json```. (Top left in Postman: "Import" button.)
 
 The collection has examples of API calls.
 
