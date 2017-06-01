@@ -14,6 +14,9 @@ export function handler(referendumList, eventData) {
         options: event.options, 
       });
       break;
+    case 'ReferendumDeleted':
+      //TODO: Deleted referendum needs to be removed from the referendums read model.
+      break;
   }
   return referendumList;
 }

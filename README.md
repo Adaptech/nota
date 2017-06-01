@@ -78,3 +78,4 @@ The collection has examples of API calls.
 #### View the web application
 
 Open `localhost:3000`
+

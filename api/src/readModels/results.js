@@ -34,26 +34,15 @@ function recordVote(referendumResults, readRepository, event) {
         }
       })
   });
-
-
-  // return readRepository.findOne('results', { referendumId })
-  //   .then(r => {
-  //     r.results.forEach(result => {
-  //       if( result.name === event.vote) {
-  //           result.votes = result.votes + 1;
-  //           console.log("VOTES: ")
-  //           console.log(result.votes)
-  //       }
-  //     })
-  //   });
 }
-
 
 export function handler(referendumResults, eventData, readRepository) {
   const event = eventData.event;
   switch (eventData.typeId) {
     case 'ReferendumCreated': return createOrUpdateReferendum(referendumResults, readRepository, event);
     case 'VoteCast': return recordVote(referendumResults, readRepository, event);
+    // case 'ReferendumDeleted':
+    //TODO: Results from deleted referendum still show up in the referendum results read model.
   }
   return referendumResults;
 }
