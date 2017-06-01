@@ -36,10 +36,6 @@ if running in a Vagrant box
 
 ```npm start```
 
-#### Seed the API
-
-```npm run seed```
-
 #### Run the unit tests
 
 ```npm test```

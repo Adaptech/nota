@@ -43,8 +43,7 @@
     "test-api": "newman run noneoftheabove.postman_collection.json -e noneoftheabove-localhost-postman-environment.postman_environment.json",
     "test-debug": "mocha --debug-brk --compilers js:babel-core/register",
     "start": "npm run server",
-    "server": "babel-node src/app local",
-    "seed": "babel-node scripts/seed.js"
+    "server": "babel-node src/app local"
   },
   "keywords": [
     "voting",
