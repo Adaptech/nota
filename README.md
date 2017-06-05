@@ -1,5 +1,5 @@
 
-_NOTA ("None Of The Above") will be a secure online voting system._ We are building it at the https://www.meetup.com/DDD-CQRS-ES/ meetup in Vancouver, BC. We [regularly develop example DDD/CQRS/ES systems](https://adaptechsolutions.net/2016-in-review-vancouvers-cqrsesddd-meetup/).
+_NOTA ("None Of The Above") will be a secure online voting system._ We are building it at https://www.meetup.com/DDD-CQRS-ES/. We [develop example DDD/CQRS/ES systems](https://adaptechsolutions.net/2016-in-review-vancouvers-cqrsesddd-meetup/) on a regular basis as part of the meetup.
 
 *See also: https://github.com/Adaptech/notasimulator*
 
