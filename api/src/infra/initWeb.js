@@ -5,8 +5,6 @@ import cors from "cors";
 import {json as jsonParser} from "body-parser";
 import glob from "glob";
 import {newInject} from "./utils";
-import fakeAuthentication from "./auth/fakeAuthentication";
-import authentication from "./auth/authentication";
 
 const ReadModelGenericController = require("./ReadModelGenericController");
 
