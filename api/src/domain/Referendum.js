@@ -28,6 +28,9 @@ export default class Referendum {
     if (evt instanceof ReferendumCreated) {
       this._onReferendumCreated(evt);
     }
+    if (evt instanceof ReferendumProposalModified) {
+      this._onReferendumProposalModified(evt);
+    }
     if (evt instanceof PollsOpened) {
       this._onPollsOpened();
     }
@@ -45,6 +48,10 @@ export default class Referendum {
   _onReferendumCreated(evt) {
     this._id = evt.referendumId;
     this._options = evt.options
+  }
+
+  _onReferendumProposalModified(evt) {
+    this._proposal = evt.proposal;
   }
 
   _onPollsOpened() {
@@ -67,7 +74,7 @@ export default class Referendum {
     if (command instanceof CreateReferendum) {
       return this._CreateReferendum(command);
     }
-    if (command instanceof ModifyReferendumProposal ) {
+    if (command instanceof ModifyReferendumProposal) {
       return this._ModifyReferendumProposal(command);
     }
     if (command instanceof DeleteReferendum) {
@@ -121,29 +128,28 @@ export default class Referendum {
   }
 
   _ModifyReferendumProposal(command) {
-    var validationError = []
+    var validationErrors = [];
 
     if (!this._id) {
-      validationError.push({"field": "", "msg": "Referendum does not exist" })
+      validationErrors.push({"field": "", "msg": "Referendum does not exist" });
     }
     if (!command.referendumId) {
-      validationError.push({"field": "referndum", "msg": "ReferendumId is a required field"})
+      validationErrors.push({"field": "referendum", "msg": "ReferendumId is a required field"});
     }
     if (!command.organizationId) {
-      validationError.push({"field": "organization", "msg": "organizationId is a required field"})
+      validationErrors.push({"field": "organization", "msg": "organizationId is a required field"});
     }
     if (!command.proposal)  {
-      validationError.push({"field": "proposal", "msg": "proposal is a required field"})
+      validationErrors.push({"field": "proposal", "msg": "proposal is a required field"});
     }
 
-    if (validationError.length > 0) {
-      throw new errors.ValidationFailed(validationsError)
+    if (validationErrors.length > 0) {
+      throw new errors.ValidationFailed(validationsError);
     }
 
     var result = [];
-    result.push( new ReferendumProposalModified(command.referendumId, command.proposal ,command.organizationId) )
-
-    return result
+    result.push( new ReferendumProposalModified(command.referendumId, command.proposal, command.organizationId) );
+    return result;
   }
 
   _DeleteReferendum(command) {
