@@ -131,7 +131,7 @@ export default class Referendum {
     var validationErrors = [];
 
     if (!this._id) {
-      validationErrors.push({"field": "", "msg": "Referendum does not exist" });
+      validationErrors.push({"field": "", "msg": "Referendum does not exist." });
     }
     if (!command.referendumId) {
       validationErrors.push({"field": "referendum", "msg": "ReferendumId is a required field"});
@@ -144,11 +144,11 @@ export default class Referendum {
     }
 
     if (validationErrors.length > 0) {
-      throw new errors.ValidationFailed(validationsError);
+      throw new errors.ValidationFailed(validationErrors);
     }
 
     var result = [];
-    result.push( new ReferendumProposalModified(command.referendumId, command.proposal, command.organizationId) );
+    result.push( new ReferendumProposalModified(command.referendumId, command.organizationId, command.proposal) );
     return result;
   }
 
