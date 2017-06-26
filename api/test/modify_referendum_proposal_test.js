@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 import Referendum from '../src/domain/Referendum';
 import ModifyReferendumProposal from '../src/commands/ModifyReferendumProposal';
 import ReferendumProposalModified from '../src/events/ReferendumProposalModified';
