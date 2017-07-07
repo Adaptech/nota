@@ -1,10 +1,12 @@
 import CreateReferendum from '../commands/CreateReferendum';
+import ModifyReferendumProposal from '../commands/ModifyReferendumProposal';
 import DeleteReferendum from '../commands/DeleteReferendum';
 import AuthenticateVoter from "../commands/AuthenticateVoter"
 import OpenPolls from "../commands/OpenPolls"
 import ClosePolls from "../commands/ClosePolls"
 import CastVote from "../commands/CastVote"
 import ReferendumCreated from '../events/ReferendumCreated';
+import ReferendumProposalModified from '../events/ReferendumProposalModified';
 import ReferendumDeleted from '../events/ReferendumDeleted';
 import PollsOpened from '../events/PollsOpened';
 import PollsClosed from '../events/PollsClosed';
@@ -26,6 +28,9 @@ export default class Referendum {
     if (evt instanceof ReferendumCreated) {
       this._onReferendumCreated(evt);
     }
+    if (evt instanceof ReferendumProposalModified) {
+      this._onReferendumProposalModified(evt);
+    }
     if (evt instanceof PollsOpened) {
       this._onPollsOpened();
     }
@@ -43,6 +48,10 @@ export default class Referendum {
   _onReferendumCreated(evt) {
     this._id = evt.referendumId;
     this._options = evt.options
+  }
+
+  _onReferendumProposalModified(evt) {
+    this._proposal = evt.proposal;
   }
 
   _onPollsOpened() {
@@ -64,6 +73,9 @@ export default class Referendum {
   execute(command) {
     if (command instanceof CreateReferendum) {
       return this._CreateReferendum(command);
+    }
+    if (command instanceof ModifyReferendumProposal) {
+      return this._ModifyReferendumProposal(command);
     }
     if (command instanceof DeleteReferendum) {
       return this._DeleteReferendum(command);
@@ -96,22 +108,47 @@ export default class Referendum {
     }
     if(!command.proposal) {
       validationErrors.push({"field": "proposal", "msg": "Referendum proposal is a required field."});
-    }   
+    }
     if(!command.name) {
       validationErrors.push({"field": "name", "msg": "Referendum name is a required field."});
-    }   
+    }
     if(!command.options) {
       validationErrors.push({"field": "options", "msg": "Referendum options are required."});
     }
     if(command.options&&command.options.length < 2) {
       validationErrors.push({"field": "options", "msg": "At least two options are required."});
-    }   
+    }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
-    }  
+    }
     command.options.push("None of the above");
     var result = [];
     result.push(new ReferendumCreated(command.referendumId, command.organizationId, command.name, command.proposal, command.options));
+    return result;
+  }
+
+  _ModifyReferendumProposal(command) {
+    var validationErrors = [];
+
+    if (!this._id) {
+      validationErrors.push({"field": "", "msg": "Referendum does not exist." });
+    }
+    if (!command.referendumId) {
+      validationErrors.push({"field": "referendum", "msg": "ReferendumId is a required field"});
+    }
+    if (!command.organizationId) {
+      validationErrors.push({"field": "organization", "msg": "organizationId is a required field"});
+    }
+    if (!command.proposal)  {
+      validationErrors.push({"field": "proposal", "msg": "proposal is a required field"});
+    }
+
+    if (validationErrors.length > 0) {
+      throw new errors.ValidationFailed(validationErrors);
+    }
+
+    var result = [];
+    result.push( new ReferendumProposalModified(command.referendumId, command.organizationId, command.proposal) );
     return result;
   }
 
@@ -131,7 +168,7 @@ export default class Referendum {
     }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
-    }  
+    }
     var result = [];
     result.push(new ReferendumDeleted(command.referendumId));
     return result;
@@ -141,19 +178,19 @@ export default class Referendum {
     var validationErrors = [];
     if(!this._id) {
       validationErrors.push({"field": "", "msg": "Referendum does not exist."})
-    }    
+    }
     if(!command.referendumId) {
       validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
     }
     if(this._status === "polls_open") {
-      validationErrors.push({"field": "", "msg": "Polls are already open."})      
+      validationErrors.push({"field": "", "msg": "Polls are already open."})
     }
     if(this._status === "polls_closed") {
-      validationErrors.push({"field": "", "msg": "Polls have already been closed."})      
+      validationErrors.push({"field": "", "msg": "Polls have already been closed."})
     }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
-    }  
+    }
     var result = [];
     result.push(new PollsOpened(command.referendumId));
     return result;
@@ -163,16 +200,16 @@ export default class Referendum {
     var validationErrors = [];
     if(!this._id) {
       validationErrors.push({"field": "", "msg": "Referendum does not exist."})
-    }    
+    }
     if(!command.referendumId) {
       validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
     }
     if(!(this._status === "polls_open")) {
-      validationErrors.push({"field": "referendumId", "msg": "Polls are not open."})      
+      validationErrors.push({"field": "referendumId", "msg": "Polls are not open."})
     }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
-    }  
+    }
     var result = [];
     result.push(new PollsClosed(command.referendumId));
     return result;
@@ -187,8 +224,8 @@ export default class Referendum {
       validationErrors.push({"field": "organizationId", "msg": "Organization does not exist."});
     }
     if(this._status != "polls_open") {
-      validationErrors.push({"field": "", "msg": "Polls are not open."})      
-    }    
+      validationErrors.push({"field": "", "msg": "Polls are not open."})
+    }
     if(!command.voterId) {
       validationErrors.push({"field": "voterId", "msg": "Voter id is a required field."});
     }
@@ -197,11 +234,11 @@ export default class Referendum {
       validationErrors.push({"field": "voterId", "msg": "Voter is not on voter list"});
     }
     if(this._authenticatedVoters.indexOf(command.voterId) != -1) {
-      validationErrors.push({"field": "voterId", "msg": "Voter has already voted"});      
+      validationErrors.push({"field": "voterId", "msg": "Voter has already voted"});
     }
     if(validationErrors.length > 0) {
       throw new errors.ValidationFailed(validationErrors);
-    }  
+    }
     var result = [];
     result.push(new VoterAuthenticated(command.referendumId, command.organizationId, command.voterId));
     return result;
@@ -213,8 +250,8 @@ export default class Referendum {
       validationErrors.push({"field": "referendumId", "msg": "Referendum id is a required field."});
     }
     if(this._status != "polls_open") {
-      validationErrors.push({"field": "", "msg": "Polls are not open."})      
-    }    
+      validationErrors.push({"field": "", "msg": "Polls are not open."})
+    }
     if(!command.vote) {
       validationErrors.push({"field": "vote", "msg": "Vote is a required field."});
     }
